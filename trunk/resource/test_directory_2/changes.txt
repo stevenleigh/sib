@@ -1,0 +1,6 @@
+added:
+root/alice.txt
+
+modified:
+root/folder/alice.txt
+	-added paragraph on end

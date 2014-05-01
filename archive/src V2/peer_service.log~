@@ -1,0 +1,58 @@
+2014-01-23 00:05:49,714 | 4072 | MainProcess | DEBUG | peer_service | __init__ | peer service initiated
+2014-01-23 00:05:49,818 | 4072 | MainProcess | DEBUG | peer_service | __init__ | peer service initiated
+2014-01-23 00:05:49,819 | 4072 | MainProcess | INFO | peer_manager | connect_peer | connecting to peer peer_B: http://localhost:21868
+2014-01-23 00:05:49,939 | 4072 | MainProcess | DEBUG | peer_service | __init__ | peer service initiated
+2014-01-23 00:05:50,045 | 4072 | MainProcess | DEBUG | peer_service | __init__ | peer service initiated
+2014-01-23 00:05:50,047 | 4072 | MainProcess | INFO | peer_manager | connect_peer | connecting to peer peer_B: http://localhost:21870
+2014-01-23 00:05:50,163 | 4072 | MainProcess | DEBUG | peer_service | __init__ | peer service initiated
+2014-01-23 00:05:50,268 | 4072 | MainProcess | DEBUG | peer_service | __init__ | peer service initiated
+2014-01-23 00:05:50,270 | 4072 | MainProcess | INFO | peer_manager | connect_peer | connecting to peer peer_B: http://localhost:21872
+2014-01-23 00:05:50,404 | 4072 | MainProcess | DEBUG | peer_service | __init__ | peer service initiated
+2014-01-23 00:05:50,507 | 4072 | MainProcess | DEBUG | peer_service | __init__ | peer service initiated
+2014-01-23 00:05:50,509 | 4072 | MainProcess | INFO | peer_manager | connect_peer | connecting to peer peer_B: http://localhost:21874
+2014-01-23 00:05:50,625 | 4072 | MainProcess | DEBUG | peer_service | __init__ | peer service initiated
+2014-01-23 00:05:50,731 | 4072 | MainProcess | DEBUG | peer_service | __init__ | peer service initiated
+2014-01-23 00:05:50,732 | 4072 | MainProcess | INFO | peer_manager | connect_peer | connecting to peer peer_A: http://localhost:21876
+2014-01-23 00:05:50,845 | 4088 | Process-5 | INFO | peer_manager | connect_peer | connecting to peer temp_ID: http://localhost:21877
+2014-01-23 00:05:50,987 | 4072 | MainProcess | DEBUG | peer_service | __init__ | peer service initiated
+2014-01-23 00:05:51,093 | 4072 | MainProcess | DEBUG | peer_service | __init__ | peer service initiated
+2014-01-23 00:05:51,095 | 4072 | MainProcess | INFO | peer_manager | connect_peer | connecting to peer peer_A: http://localhost:21878
+2014-01-23 00:05:51,098 | 4072 | MainProcess | DEBUG | peer_manager | collect_commit_dependencies | requesting file to fill dependency: 9f5062b9d7ba14ef9971cd445801d5f53619d91af2adfb1ec9ca1b16
+2014-01-23 00:05:51,115 | 4072 | MainProcess | DEBUG | peer_manager | collect_commit_dependencies | requesting file to fill dependency: 56c273034e2d8db8857f2a6c620e56fbd9cd0b438a8ae350e59bca68
+2014-01-23 00:05:51,125 | 4072 | MainProcess | DEBUG | peer_manager | collect_commit_dependencies | requesting file to fill dependency: 55e13a8ce28ae640ac876bfbbb813530de2cf324db210862485df2b1
+2014-01-23 00:05:51,138 | 4072 | MainProcess | DEBUG | peer_manager | collect_commit_dependencies | requesting file to fill dependency: 7d65503335e033d86221ffda3f1191a30aa22102f3cb4879ba4db266
+2014-01-23 00:09:40,739 | 4306 | MainProcess | DEBUG | peer_service | __init__ | peer service initiated
+2014-01-23 00:09:40,843 | 4306 | MainProcess | DEBUG | peer_service | __init__ | peer service initiated
+2014-01-23 00:09:40,844 | 4306 | MainProcess | INFO | peer_manager | connect_peer | connecting to peer peer_B: http://localhost:42692
+2014-01-23 00:09:40,858 | 4317 | Process-1 | INFO | peer_manager | ping | xmlrpc call to ping
+2014-01-23 00:09:40,962 | 4306 | MainProcess | DEBUG | peer_service | __init__ | peer service initiated
+2014-01-23 00:09:41,068 | 4306 | MainProcess | DEBUG | peer_service | __init__ | peer service initiated
+2014-01-23 00:09:41,070 | 4306 | MainProcess | INFO | peer_manager | connect_peer | connecting to peer peer_B: http://localhost:42694
+2014-01-23 00:09:41,080 | 4318 | Process-2 | INFO | peer_manager | save_file | xmlrpc call to save_file for a1f7f4060ff3f7c0b7c28b4a37990a851a225e475d47da7a0d82dec5
+2014-01-23 00:09:41,187 | 4306 | MainProcess | DEBUG | peer_service | __init__ | peer service initiated
+2014-01-23 00:09:41,292 | 4306 | MainProcess | DEBUG | peer_service | __init__ | peer service initiated
+2014-01-23 00:09:41,294 | 4306 | MainProcess | INFO | peer_manager | connect_peer | connecting to peer peer_B: http://localhost:42696
+2014-01-23 00:09:41,303 | 4319 | Process-3 | INFO | peer_manager | get_file | xmlrpc call to get_file for a1f7f4060ff3f7c0b7c28b4a37990a851a225e475d47da7a0d82dec5
+2014-01-23 00:09:41,439 | 4306 | MainProcess | DEBUG | peer_service | __init__ | peer service initiated
+2014-01-23 00:09:41,544 | 4306 | MainProcess | DEBUG | peer_service | __init__ | peer service initiated
+2014-01-23 00:09:41,545 | 4306 | MainProcess | INFO | peer_manager | connect_peer | connecting to peer peer_B: http://localhost:42698
+2014-01-23 00:09:41,553 | 4321 | Process-4 | INFO | peer_manager | save_file | xmlrpc call to save_file for f6dd30c93f30afe45d33714a41392d0a5d8f02784dfac0ebd66a9993
+2014-01-23 00:09:41,660 | 4306 | MainProcess | DEBUG | peer_service | __init__ | peer service initiated
+2014-01-23 00:09:41,765 | 4306 | MainProcess | DEBUG | peer_service | __init__ | peer service initiated
+2014-01-23 00:09:41,766 | 4306 | MainProcess | INFO | peer_manager | connect_peer | connecting to peer peer_A: http://localhost:42700
+2014-01-23 00:09:41,879 | 4322 | Process-5 | INFO | peer_manager | get_all_commits | xmlrpc call to get_all_commits with return url: http://localhost:42701
+2014-01-23 00:09:41,880 | 4322 | Process-5 | INFO | peer_manager | connect_peer | connecting to peer temp_ID: http://localhost:42701
+2014-01-23 00:09:41,892 | 4323 | Process-6 | INFO | peer_manager | save_file | xmlrpc call to save_file for _4c678ea84860a8248b5ab262a104511a673cfd202cd16a816905cdde
+2014-01-23 00:09:41,902 | 4323 | Process-6 | INFO | peer_manager | save_file | xmlrpc call to save_file for _2568759acf5618cbb3f27b2b8d747f7e2055e8b33837cf0cd610631e
+2014-01-23 00:09:41,914 | 4323 | Process-6 | INFO | peer_manager | save_file | xmlrpc call to save_file for _845ff49a5d5fd261ccaa7e0da516657b56f37603f1df15df9d7f8ba9
+2014-01-23 00:09:42,030 | 4306 | MainProcess | DEBUG | peer_service | __init__ | peer service initiated
+2014-01-23 00:09:42,134 | 4306 | MainProcess | DEBUG | peer_service | __init__ | peer service initiated
+2014-01-23 00:09:42,135 | 4306 | MainProcess | INFO | peer_manager | connect_peer | connecting to peer peer_A: http://localhost:42702
+2014-01-23 00:09:42,138 | 4306 | MainProcess | DEBUG | peer_manager | collect_commit_dependencies | requesting file to fill dependency: 9f5062b9d7ba14ef9971cd445801d5f53619d91af2adfb1ec9ca1b16
+2014-01-23 00:09:42,145 | 4324 | Process-7 | INFO | peer_manager | get_file | xmlrpc call to get_file for 9f5062b9d7ba14ef9971cd445801d5f53619d91af2adfb1ec9ca1b16
+2014-01-23 00:09:42,151 | 4306 | MainProcess | DEBUG | peer_manager | collect_commit_dependencies | requesting file to fill dependency: 56c273034e2d8db8857f2a6c620e56fbd9cd0b438a8ae350e59bca68
+2014-01-23 00:09:42,157 | 4324 | Process-7 | INFO | peer_manager | get_file | xmlrpc call to get_file for 56c273034e2d8db8857f2a6c620e56fbd9cd0b438a8ae350e59bca68
+2014-01-23 00:09:42,165 | 4306 | MainProcess | DEBUG | peer_manager | collect_commit_dependencies | requesting file to fill dependency: 55e13a8ce28ae640ac876bfbbb813530de2cf324db210862485df2b1
+2014-01-23 00:09:42,170 | 4324 | Process-7 | INFO | peer_manager | get_file | xmlrpc call to get_file for 55e13a8ce28ae640ac876bfbbb813530de2cf324db210862485df2b1
+2014-01-23 00:09:42,185 | 4306 | MainProcess | DEBUG | peer_manager | collect_commit_dependencies | requesting file to fill dependency: 7d65503335e033d86221ffda3f1191a30aa22102f3cb4879ba4db266
+2014-01-23 00:09:42,191 | 4324 | Process-7 | INFO | peer_manager | get_file | xmlrpc call to get_file for 7d65503335e033d86221ffda3f1191a30aa22102f3cb4879ba4db266

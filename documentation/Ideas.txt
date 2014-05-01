@@ -1,0 +1,43 @@
+Design
+==============
+
+
+
+-git like architecture
+-encrypt: commits, trees, and file blobs
+-
+-file blob deltas and file blob aggregate deltas (full versions)
+-
+
+Key differences from git
+========================
+-tree is a single file
+-can have diffs of tree
+-commits point to a diff of a tree
+
+
+
+
+
+File name obfuscation
+=====================
+-tree is a single encrypted file containing all file names
+
+
+Folder structure obfuscation
+============================
+-tree is a single encrypted file containing full folder names and structure
+-add an amount of random data to the end of each initial commit tree (0 to 2% of extra data)
+
+
+File size obfuscation
+=====================
+-A first commit will have one blob for each file.  That makes predicting files sizes very accurate.  Possible solution:
+	-pack small files together and split large files up
+-If someone transfers a movie they are typically ~700MB.  A transfer of that amount of data, regardless of number of file blobs would suggest those blobs make up a movie.
+	Possible solutions:
+	-enforce downloading from multiple sources
+	-split up files among various storage servers
+	-add an amount of random data to the end of each initial commit file (0 to 2% of extra data)
+-group many files together
+

@@ -1,0 +1,63 @@
+""" tinker file for getting different central components of cloudcache working
+
+
+
+"""
+
+import sys, difflib
+
+class file_delta:
+	#file a hash
+	file_hash='0'
+	#opcode array
+	opcodes=[]
+	#opcode strings
+	opcode_strings=[]
+	
+	def printf(self):
+		print "pointer hash: %s" %(file_hash)
+		index=0;
+		for code in self.opcodes:
+			#code(tag,i1,i2,j1,j2)
+			print ("%7s a[%d:%d] b[%d:%d] %s" \
+					%(code[0], code[1],code[2],code[3],code[4], \
+					self.opcode_strings[index]))
+			index=index+1
+
+
+f1=open('sample_text_1.txt','r')
+f2=open('sample_text_2.txt','r')
+f3=open('sample_text_3.txt','r')
+
+t1=f1.readlines();
+t2=f2.readlines();
+
+print f1.read()
+
+#diff a text file
+'''
+for line in difflib.unified_diff(t1,t2):
+	sys.stdout.write(line)
+'''
+
+s = difflib.SequenceMatcher(None, t1, t2)
+f_d = file_delta()
+for tag, i1, i2, j1, j2 in s.get_opcodes():
+	#print ("%7s a[%d:%d] (%s) b[%d:%d] (%s)" %(tag, i1, i2, t1[i1:i2], j1, j2, t2[j1:j2]))
+	f_d.opcodes = f_d.opcodes + [(tag,i1,i2,j1,j2)]
+	if tag == 'insert' or tag == 'replace':
+		f_d.opcode_strings = f_d.opcode_strings + [t2[j1:j2]]
+	else:
+		f_d.opcode_strings = f_d.opcode_strings + ['']
+
+f_d.printf()
+	
+
+#print diff
+
+
+#encrypt a text file
+
+
+
+#encrypt a diff

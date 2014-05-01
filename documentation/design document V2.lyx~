@@ -1,0 +1,1783 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 2cm
+\topmargin 2cm
+\rightmargin 2cm
+\bottommargin 2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle fancy
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+sib Design Document
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FloatList figure
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+TODO:
+\end_layout
+
+\begin_layout Standard
+A
+\end_layout
+
+\begin_layout Itemize
+refine documentation
+\end_layout
+
+\begin_layout Itemize
+common utilities script
+\end_layout
+
+\begin_layout Itemize
+source control
+\end_layout
+
+\begin_layout Itemize
+release alpha version for testing on my computers/phone
+\end_layout
+
+\begin_layout Itemize
+save/load config details
+\end_layout
+
+\begin_layout Itemize
+more thorough testing
+\end_layout
+
+\begin_layout Itemize
+merging
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+trees
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+B
+\end_layout
+
+\begin_layout Itemize
+NAT traversal
+\end_layout
+
+\begin_layout Itemize
+profiling
+\end_layout
+
+\begin_layout Itemize
+networking
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+implement file block request
+\end_layout
+
+\begin_layout Itemize
+implement send commits in range
+\end_layout
+
+\begin_layout Itemize
+implement matching commits from peer
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+poll peers for new commits
+\end_layout
+
+\begin_layout Itemize
+notify peers for new commits
+\end_layout
+
+\begin_layout Itemize
+software update mechanism
+\end_layout
+
+\begin_layout Itemize
+storage zlib compression
+\end_layout
+
+\begin_layout Itemize
+make documentation actually accurate
+\end_layout
+
+\begin_layout Itemize
+use first 2 letters of blob hash as folder name
+\end_layout
+
+\begin_layout Itemize
+networking
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+delete blob message
+\end_layout
+
+\begin_layout Itemize
+implement command and high bandwidth sockets
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+command sockets only used for initializing new high bandwidth sockets
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+packet level encryption
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+C
+\end_layout
+
+\begin_layout Itemize
+automatic port forwarding using (miranda-upnp?, MiniUPnP? PJSIP?)
+\end_layout
+
+\begin_layout Itemize
+realtime sync folders
+\end_layout
+
+\begin_layout Itemize
+GUI
+\end_layout
+
+\begin_layout Itemize
+unit tests
+\end_layout
+
+\begin_layout Itemize
+upload to github?
+\end_layout
+
+\begin_layout Itemize
+public key encryption
+\end_layout
+
+\begin_layout Itemize
+DDNS (namecoin?)
+\end_layout
+
+\begin_layout Itemize
+multiple user download/upload
+\end_layout
+
+\begin_layout Itemize
+caching
+\end_layout
+
+\begin_layout Itemize
+make version for:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+windows
+\end_layout
+
+\begin_layout Itemize
+android
+\end_layout
+
+\begin_layout Itemize
+mac
+\end_layout
+
+\begin_layout Itemize
+iOS
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+installer for windows, linux, IOS, Android and Mac
+\end_layout
+
+\begin_layout Itemize
+send email if peer is completely disconnected from all other peers
+\end_layout
+
+\begin_layout Itemize
+pack large collections of smaller less commonly used files
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+storing many small files is very inefficient
+\end_layout
+
+\begin_layout Itemize
+design a pack header containing easily read hashes and indexes of all included
+ files
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+send a web link to an anonymous user of a single version of a file?
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+storage directory files are stored in folders named with SHA-224 hash of
+ encryption key + salt
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+error and consistency checking
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+recovery?
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+distributed hash table (DHT) for automating peer connections
+\end_layout
+
+\begin_layout Standard
+Done (in alpha)
+\end_layout
+
+\begin_layout Itemize
+poll working directory for file changes
+\end_layout
+
+\begin_layout Itemize
+auto-update working directory to latest commit
+\end_layout
+
+\begin_layout Itemize
+merging
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+file blobs
+\end_layout
+
+\end_deeper
+\begin_layout Section
+Overview
+\end_layout
+
+\begin_layout Standard
+sib is a utility for storing files among any other connected computers.
+ It can be used for off-site file backups, transferring files to remote
+ computers, accessing your files anywhere in the world and sharing files
+ publicly.
+ Computer users will be able to leverage their unused hard disk space and
+ network bandwidth to essentially acquire the aforementioned benefits at
+ no significant cost.
+\end_layout
+
+\begin_layout Section
+Dependencies
+\end_layout
+
+\begin_layout Itemize
+Python 2.7
+\end_layout
+
+\begin_layout Itemize
+pycrypto
+\end_layout
+
+\begin_layout Itemize
+watchdog for python
+\end_layout
+
+\begin_layout Section
+Concepts
+\end_layout
+
+\begin_layout Itemize
+untrusted remote server (URS)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+stores files for you
+\end_layout
+
+\begin_layout Itemize
+assumed to be untrustworthy 
+\end_layout
+
+\begin_layout Itemize
+if any files have sensitive content they should be adequately encrypted
+ before transfer to URS
+\end_layout
+
+\begin_layout Itemize
+Everything stored on the URS should be verified frequently.
+\end_layout
+
+\begin_layout Itemize
+All claims by URS (eg.
+ bandwidth, uptime, etc.) should be verified using local experience and peer
+ references
+\end_layout
+
+\end_deeper
+\begin_layout Section
+Main Features
+\end_layout
+
+\begin_layout Subsection
+File Priorities
+\end_layout
+
+\begin_layout Itemize
+different files or folders can be set to be backed up different amounts
+ and in different ways (optimize latency over reliability, etc.)
+\end_layout
+
+\begin_layout Subsection
+Verification
+\end_layout
+
+\begin_layout Itemize
+users can ask remote computers for hashes plus salts of their files.
+ This can be used to ensure the remote computer is actually storing the
+ desired files
+\end_layout
+
+\begin_layout Itemize
+users can download and upload files at random times to verify remote bandwidth
+\end_layout
+
+\begin_layout Itemize
+remote computers can periodically hash local files to ensure consistency
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+if consistency failures, primary users should be informed asap.
+\end_layout
+
+\end_deeper
+\begin_layout Subsection
+Expandability
+\end_layout
+
+\begin_layout Itemize
+all operations by utility will have a utility version number associated
+ so utility upgrades can be more easily backwards compatible
+\end_layout
+
+\begin_layout Itemize
+allow plugins for
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+determining how trust is computed
+\end_layout
+
+\begin_layout Itemize
+custom bandwidth/cache/space optimizations
+\end_layout
+
+\end_deeper
+\begin_layout Subsection
+Decentralized DNS
+\end_layout
+
+\begin_layout Itemize
+no DNS server is needed.
+ Clients will communicate regularly and if their IP changes they tell their
+ peers.
+ URLs will be given preference if they exist.
+\end_layout
+
+\begin_layout Subsection
+Version Control
+\end_layout
+
+\begin_layout Itemize
+able to recover previous versions of files
+\end_layout
+
+\begin_layout Itemize
+able to merge files (deal with conflicts)
+\end_layout
+
+\begin_layout Itemize
+able to view file history: who modified it when
+\end_layout
+
+\begin_layout Subsection
+Peers
+\end_layout
+
+\begin_layout Itemize
+users are verified locally using certificates? 
+\end_layout
+
+\begin_layout Itemize
+can add specific users as trusted computers (friends, family, etc.)
+\end_layout
+
+\begin_layout Itemize
+can share files to specific peers by encrypting with specific keys
+\end_layout
+
+\begin_layout Itemize
+can share files publicly by not encrypting (how are file lists distributed?)
+\end_layout
+
+\begin_layout Itemize
+users can view which peers have which files and how many backups exist
+\end_layout
+
+\begin_layout Itemize
+users can allow access to groups of people
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+voluntary creation of signing keys.
+ eg.
+ keys for:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+universities
+\end_layout
+
+\begin_layout Itemize
+governments
+\end_layout
+
+\begin_layout Itemize
+companies
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+trust networks
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+validity of content can be verified through trust networks
+\end_layout
+
+\begin_layout Itemize
+trust metrics?
+\end_layout
+
+\end_deeper
+\begin_layout Subsection
+Bandwidth Optimization
+\end_layout
+
+\begin_layout Itemize
+only transmit file deltas (use rsync?)
+\end_layout
+
+\begin_layout Itemize
+transmits parts of files from numerous computers at once to take advantage
+ of multiple users' worth of upload bandwidth
+\end_layout
+
+\begin_layout Subsection
+Cache Optimization
+\end_layout
+
+\begin_layout Itemize
+store commonly accessed files on computers with high bandwidth (maybe even
+ pay for a small amount of space on something like amazon s3)
+\end_layout
+
+\begin_layout Itemize
+store files on remote computers that are near by to minimize latency, but
+ not too close to risk losses from local disasters
+\end_layout
+
+\begin_layout Subsection
+Space Optimization
+\end_layout
+
+\begin_layout Itemize
+files that are shared publicly don't need to be backed up as many times
+\end_layout
+
+\begin_layout Itemize
+incremental backups
+\end_layout
+
+\begin_layout Itemize
+user can specify how much space they want to use, so at some point incremental
+ backups can be deleted
+\end_layout
+
+\begin_layout Itemize
+users can specify if they want to store full backups as well
+\end_layout
+
+\begin_layout Subsection
+Encryption
+\end_layout
+
+\begin_layout Itemize
+able to encrypt with encryptrsync for fast incremental uploads, but able
+ to use stronger encryption if fast incrementals aren't desired
+\end_layout
+
+\begin_layout Itemize
+encrypt local files for security purposes
+\end_layout
+
+\begin_layout Itemize
+encrypt files before they are sent to a remote computer so the remote computer
+ can store them, but not know what the files consist of
+\end_layout
+
+\begin_layout Itemize
+encrypt files with different keys, which can be given out, thereby controlling
+ outside access to said files
+\end_layout
+
+\begin_layout Itemize
+users can access all files using only their password and ip address or url.
+\end_layout
+
+\begin_layout Itemize
+allow re-encrypting files in case master, or peer key is compromised
+\end_layout
+
+\begin_layout Itemize
+varying levels of encryption with high level explanations 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+encryption that likely can't be hacked by:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+grandma (+0% storage usage and +0% transfer times)
+\end_layout
+
+\begin_layout Itemize
+ordinary citizens (+1% storage usage and +5% transfer times)
+\end_layout
+
+\begin_layout Itemize
+large organization (+4% storage usage and +10% transfer times)
+\end_layout
+
+\begin_layout Itemize
+powerful governments (+8% storage usage and +20% transfer times)
+\end_layout
+
+\begin_layout Itemize
+powerful governments for the next 25 years (+16% storage usage and +40%
+ transfer times)
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Section
+Secondary Features
+\end_layout
+
+\begin_layout Itemize
+git like version control?
+\end_layout
+
+\begin_layout Itemize
+nice gui
+\end_layout
+
+\begin_layout Itemize
+interface for adding annotation/comments/voting/editing?
+\end_layout
+
+\begin_layout Itemize
+maintain file metadata.
+ eg.
+ file permissions, hardlinks, etc.
+\end_layout
+
+\begin_layout Itemize
+annotation/comments of files, parts of files, and versions of files from
+ peers and certain groups of peers
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+voting/rating on files/comments
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+works on desktops and cell phones
+\end_layout
+
+\begin_layout Itemize
+trending content both from friends and public
+\end_layout
+
+\begin_layout Itemize
+distributed search
+\end_layout
+
+\begin_layout Itemize
+distributed recommender system
+\end_layout
+
+\begin_layout Itemize
+anonymity
+\end_layout
+
+\begin_layout Section
+Economy
+\end_layout
+
+\begin_layout Itemize
+By default, users can 
+\series bold
+elect
+\series default
+ to trade their services for other user's services eliminating the need
+ for money in the transactions (very low barrier to entry).
+ Trading HD space is mutually beneficial, as users will gain off-site backups,
+ backups spanned over multiple HD's and increased file transfer speeds (files
+ are spread across many computers).
+\end_layout
+
+\begin_layout Itemize
+users can publish their HD space, max up and download bandwidth, up and
+ download bandwidth reliability, up/downtime.
+ With this information other users can bid to keep their files there.
+ 
+\end_layout
+
+\begin_layout Itemize
+users should be able to maintain a bidding profile so pricing can change
+ dynamically
+\end_layout
+
+\begin_layout Itemize
+bidding should be conscious of pricing of industrial options eg.
+ amazon s3
+\end_layout
+
+\begin_layout Itemize
+users can store the following time series of information about remotes
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+upload and download rates
+\end_layout
+
+\begin_layout Itemize
+file verification successes and failures
+\end_layout
+
+\begin_layout Itemize
+up/downtime
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+users can ask potential peers for a list of their past peers.
+ Users can then contact those peers and download their time series to verify
+ the remotes claims of bandwidth and uptime.
+ Mainly users would only communicate with a number from 1-10 indicating
+ how 
+\series bold
+truthful
+\series default
+ they find the remotes published stats.
+\end_layout
+
+\begin_layout Itemize
+if a remote has lots of peers that trust them then their ratings of other
+ peers can be trusted more (somewhat like pagerank algo?)
+\end_layout
+
+\begin_layout Itemize
+would need some sort of distributed crawler to get trust numbers for many
+ users?
+\end_layout
+
+\begin_layout Itemize
+allow a trial period where dummy data is uploaded to a remote and trust
+ is measured
+\end_layout
+
+\begin_layout Itemize
+allow trust to be computed in many different ways (plugin), one of which
+ includes a user input.
+\end_layout
+
+\begin_layout Section
+Processes and Data Structures
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename User uploading data to non-friend remote.pdf
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+User uploading to stranger flowchart
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+User updating files from URS
+\end_layout
+
+\begin_layout Enumerate
+Contact server
+\end_layout
+
+\begin_layout Enumerate
+User sends most recent commit hash
+\end_layout
+
+\begin_layout Enumerate
+Server sends any more recent commit and corresponding tree blobs
+\end_layout
+
+\begin_layout Enumerate
+User reads new commit and tree blobs
+\end_layout
+
+\begin_layout Enumerate
+User calculates list of necessary file blobs and sends this list to URS
+ (in random order)
+\end_layout
+
+\begin_layout Enumerate
+Server begins transferring file blobs to user
+\end_layout
+
+\begin_layout Enumerate
+user applies deltas to file blobs and attains final file versions
+\end_layout
+
+\begin_layout Enumerate
+final file versions are copied to desired user directory for 
+\end_layout
+
+\begin_layout Enumerate
+once all files are transferred from URS to user connection is closed
+\end_layout
+
+\begin_layout Section
+Interface Specification
+\end_layout
+
+\begin_layout Subsection
+Trusted Client
+\end_layout
+
+\begin_layout Itemize
+encrypts blobs
+\end_layout
+
+\begin_layout Itemize
+encrypts TOF (table of files)
+\end_layout
+
+\begin_layout Itemize
+performs diffs between blob versions
+\end_layout
+
+\begin_layout Itemize
+transmits blobs and TOF to other computers
+\end_layout
+
+\begin_layout Itemize
+applies deltas to one file so one blob is the most recent file version
+\end_layout
+
+\begin_layout Itemize
+TOFs contain encryption keys for blobs
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+multiple TOFs for multiple users.
+ Some have encryption keys for different subsets of files
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+javascript served from client can link to files on remotes
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+encrypted or public
+\end_layout
+
+\begin_layout Itemize
+
+\end_layout
+
+\end_deeper
+\begin_layout Subsection
+Untrusted Remote Server
+\end_layout
+
+\begin_layout Subsection
+File Blob Class Structure
+\end_layout
+
+\begin_layout Standard
+Fields
+\end_layout
+
+\begin_layout Itemize
+hash of unencrypted previous version
+\end_layout
+
+\begin_layout Itemize
+diff opcodes to transfer from previous version to this version
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+opcodes: insert, delete, replace, equal, aggregate (signifies this is not
+ a diff, but an aggregate version used to reduce bandwidth for future downloads)
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+diff strings corresponding to opcodes
+\end_layout
+
+\begin_layout Standard
+Methods
+\end_layout
+
+\begin_layout Itemize
+write file blob to file
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+serialize
+\end_layout
+
+\begin_layout Enumerate
+compress (zlib?)
+\end_layout
+
+\begin_layout Enumerate
+concatenate version and size bytes
+\end_layout
+
+\begin_layout Enumerate
+compute deterministic obfuscation data if necessary (seeded from SHA-1 hash
+ of current version?)
+\end_layout
+
+\begin_layout Enumerate
+pad for encryption
+\end_layout
+
+\begin_layout Enumerate
+encrypt (AES ECB?)
+\end_layout
+
+\begin_layout Enumerate
+set file name to protocol version, SHA-1 hash of encrypted file
+\end_layout
+
+\end_deeper
+\begin_layout Subsection
+File Blob File Structure
+\end_layout
+
+\begin_layout Standard
+serialize file blob using JSON
+\end_layout
+
+\begin_layout Itemize
+file name on URS is sib version byte followed by SHA-2 hash of non-encrypted
+ file
+\end_layout
+
+\begin_layout Itemize
+unencrypted file:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+first byte is version byte
+\end_layout
+
+\begin_layout Itemize
+next 8 bytes are size of file in bytes
+\end_layout
+
+\begin_layout Itemize
+next ? bytes are hash codes?
+\end_layout
+
+\begin_layout Itemize
+any data beyond reported file size are size obfuscation bytes and/or pad
+ bytes
+\end_layout
+
+\end_deeper
+\begin_layout Subsection
+Commit blob file structure
+\end_layout
+
+\begin_layout Itemize
+all commit names are prepended by '_'
+\end_layout
+
+\begin_layout Standard
+serialize blob using JSON
+\end_layout
+
+\begin_layout Standard
+fields
+\end_layout
+
+\begin_layout Itemize
+protocol version code
+\end_layout
+
+\begin_layout Itemize
+username
+\end_layout
+
+\begin_layout Itemize
+email address
+\end_layout
+
+\begin_layout Itemize
+IP address
+\end_layout
+
+\begin_layout Itemize
+signing key
+\end_layout
+
+\begin_layout Itemize
+date (seconds)
+\end_layout
+
+\begin_layout Itemize
+message
+\end_layout
+
+\begin_layout Itemize
+hash of unencrypted commit tree
+\end_layout
+
+\begin_layout Subsection
+Tree Blob Class Structure
+\end_layout
+
+\begin_layout Standard
+Fields
+\end_layout
+
+\begin_layout Itemize
+protocol version byte
+\end_layout
+
+\begin_layout Itemize
+tree built from python tuples
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+tuples contain:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+hash of current node
+\end_layout
+
+\begin_layout Itemize
+string pointing to hash of lower elements
+\end_layout
+
+\begin_layout Itemize
+string indicating the file or folder name of lower element current node
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+tuples are sorted by current node hashes alphanumerically
+\end_layout
+
+\begin_layout Itemize
+hash of a current node is a re-hash of all lower elements and names 
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+Methods
+\end_layout
+
+\begin_layout Itemize
+write
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+traverse tree alphanumerically by breadth first and date modified first
+ and write tuples on separate lines with hashes and names separated by forward
+ slashes
+\end_layout
+
+\begin_layout Enumerate
+compress (zlib?)
+\end_layout
+
+\begin_layout Enumerate
+concatenate version and size bytes
+\end_layout
+
+\begin_layout Enumerate
+compute deterministic obfuscation data if necessary (seeded from SHA-1 hash
+ of current version?)
+\end_layout
+
+\begin_layout Enumerate
+pad for encryption
+\end_layout
+
+\begin_layout Enumerate
+encrypt (AES CBC?)
+\end_layout
+
+\begin_layout Enumerate
+set file name to protocol version, SHA-2 hash of encrypted file
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+compute_delta
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+use libdiff from python
+\end_layout
+
+\begin_layout Itemize
+since tree is stored breath first and date modified first, files in the
+ same directory are stored adjacent.
+ This permits the use of libdiff to compute diffs on the tree data.
+\end_layout
+
+\end_deeper
+\begin_layout Section
+Networking
+\end_layout
+
+\begin_layout Itemize
+servers and clients always listen for commands on ports: 55921, 56921, 57921,
+ 58921, 59921
+\end_layout
+
+\begin_layout Itemize
+once connected new requests to use other ports for further communication
+ (even new sessions) are suggested
+\end_layout
+
+\begin_layout Subsection
+Socket Protocol
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename packet data flow.pdf
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Internal socket data flow
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Main message header: 
+\end_layout
+
+\begin_layout Itemize
+header is JSONRPC formatted
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+parameters are always arrays (name parameters have too much overhead)
+\end_layout
+
+\begin_layout Itemize
+first element is protocol version number
+\end_layout
+
+\begin_layout Itemize
+second element is congestion object
+\end_layout
+
+\begin_layout Itemize
+further elements are method specific parameters
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+bytes after header are non-formatted message specific data
+\end_layout
+
+\begin_layout Subsubsection
+message types:
+\end_layout
+
+\begin_layout Itemize
+authentication (?) (the word 'signature' AES encrypted using group name?)
+ ('authenticate')
+\end_layout
+
+\begin_layout Itemize
+new socket request ('socket request')
+\end_layout
+
+\begin_layout Itemize
+send commits between range ('commits in range')
+\end_layout
+
+\begin_layout Itemize
+file block request (client and server) ('br')
+\end_layout
+
+\begin_layout Itemize
+file block (client and server) ('fb')
+\end_layout
+
+\begin_layout Itemize
+ping ('ping'/'pong')
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+used to test a socket connection, or keep a socket connection alive
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+verify file blob
+\end_layout
+
+\begin_layout Itemize
+delete blob
+\end_layout
+
+\begin_layout Itemize
+close connection (?)
+\end_layout
+
+\begin_layout Subsubsection
+send commits between range:
+\end_layout
+
+\begin_layout Itemize
+msg specific args list [time/hash flag, full send or aggregate hash flag,
+ range start, range end]
+\end_layout
+
+\begin_layout Itemize
+time/hash flag: 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+if flag is 'time' then range start and end refer to UTC dates of commit
+ file creations on URS
+\end_layout
+
+\begin_layout Itemize
+if flag is 'hash' then range start and end refer to commit hashes of alphanumeri
+cally sorted list on URS
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+full send or aggregate hash flag: 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+'full' means send all matching commit messages.
+ 
+\end_layout
+
+\begin_layout Itemize
+'hash' means compute order agnostic hash of matching commit hashes
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+the agnostic hash is simply XORing 
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+dates in standard time format
+\end_layout
+
+\begin_layout Itemize
+times according to file creation date on URS machine
+\end_layout
+
+\begin_layout Subsubsection
+File transfer block:
+\end_layout
+
+\begin_layout Itemize
+message specific args list [hash, file size, block location, block size,
+ block hash]
+\end_layout
+
+\begin_layout Itemize
+message: file block
+\end_layout
+
+\begin_layout Subsubsection
+File block request:
+\end_layout
+
+\begin_layout Itemize
+message specific args list [file hash, block size, [desired block locations]]
+\end_layout
+
+\begin_layout Itemize
+if desired block locations is empty then send all blocks
+\end_layout
+
+\begin_layout Subsection
+Determining latest commit from peer
+\end_layout
+
+\begin_layout Enumerate
+A peer sends send a 'commits in range' msg to B peer using a conservative
+ start date and an end date of tomorrow
+\end_layout
+
+\begin_layout Enumerate
+B peer transmits all matching
+\end_layout
+
+\begin_layout Enumerate
+A and B then sort all commits based on hashes
+\end_layout
+
+\begin_layout Enumerate
+A goes through list alphabetically and sends a 'commits in range' msg with
+ aggregate hash flag set.
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+sent for every 50 commits
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+if aggregate hash does not match then send 'commits in range' msg with 'full'
+ flag set.
+\end_layout
+
+\begin_layout Enumerate
+continue until list is complete (for start and end of list send '0' and
+ 'z' respectively so the full range of possible commit hashes is covered)
+\end_layout
+
+\begin_layout Enumerate
+store UTC date and peer name to accelerate future commit updates?
+\end_layout
+
+\begin_layout Standard
+what if someone uploads a commit to URS during this check? ans: doesn't
+ matter.
+ at the end of the process the A peer should be able to perform just step
+ 1 again and be completely up to date
+\end_layout
+
+\begin_layout Subsection
+Typical transaction
+\end_layout
+
+\begin_layout Subsubsection
+Peer A updating from peer B
+\end_layout
+
+\begin_layout Enumerate
+perform authentication
+\end_layout
+
+\begin_layout Enumerate
+open new socket for large bandwidth
+\end_layout
+
+\begin_layout Enumerate
+run determine latest commit process
+\end_layout
+
+\begin_layout Enumerate
+peer A selects one or more commits to build
+\end_layout
+
+\begin_layout Enumerate
+peer A requests all relevant blobs that aren't local
+\end_layout
+
+\begin_layout Enumerate
+peer A closes connection
+\end_layout
+
+\begin_layout Subsubsection
+Peer A pushing an update to peer B
+\end_layout
+
+\begin_layout Enumerate
+perform authentication
+\end_layout
+
+\begin_layout Enumerate
+open new socket for large bandwidth
+\end_layout
+
+\begin_layout Enumerate
+peer A asks continually asks peer B for parent hashes of desired commit
+ until all dependencies are found on B
+\end_layout
+
+\begin_layout Enumerate
+knowing the state of relevant commits on peer B, peer A can then send all
+ relevant commits and file blobs to peer B
+\end_layout
+
+\begin_layout Subsubsection
+Peer A cleaning outdated blobs from peer B
+\end_layout
+
+\begin_layout Enumerate
+peer A makes appropriate aggregate commits
+\end_layout
+
+\begin_layout Enumerate
+peer A finds all local parents to aggregate commits and all corresponding
+ blobs
+\end_layout
+
+\begin_layout Enumerate
+peer A uploads aggregate commits to peer B
+\end_layout
+
+\begin_layout Enumerate
+peer A tells peer B to delete information selected in step 2
+\end_layout
+
+\begin_layout Section
+GUI Design
+\end_layout
+
+\begin_layout Subsection
+Local client major features
+\end_layout
+
+\begin_layout Itemize
+served locally
+\end_layout
+
+\begin_layout Itemize
+can navigate local FS and select folders/files to sync
+\end_layout
+
+\begin_layout Itemize
+can manage peers
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+add
+\end_layout
+
+\begin_layout Itemize
+delete
+\end_layout
+
+\begin_layout Itemize
+view peers stats
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+peer IDs
+\end_layout
+
+\begin_layout Itemize
+ping times
+\end_layout
+
+\begin_layout Itemize
+average bandwidths
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+can view commits (in cool physics based directed graph?)
+\end_layout
+
+\begin_layout Itemize
+can make new commits
+\end_layout
+
+\begin_layout Subsection
+Global client major features
+\end_layout
+
+\begin_layout Itemize
+HTML 5 and javascript based
+\end_layout
+
+\begin_layout Itemize
+served from peers
+\end_layout
+
+\begin_layout Itemize
+can access any peer from browser
+\end_layout
+
+\begin_layout Itemize
+tree view of available files
+\end_layout
+
+\begin_layout Section
+Concurrency Issues
+\end_layout
+
+\begin_layout Itemize
+Downloading multiple files from multiple users.
+ Have a non-blocking proxy.get_file() call run in another thread.
+ How to determine get_file() progress/completion? Consider calling get_file_bloc
+k().
+ Only measure completion by checking thread.join().
+ Need a thread pool due to high number of potential block requests
+\end_layout
+
+\begin_layout Itemize
+Downloading entire repository from peer.
+ At the same time, the peer adds a commit to the repository.
+ Will partial files be downloaded? If not, there is no real problem as downloade
+d orphaned files is only a minor issue.
+\end_layout
+
+\begin_layout Section
+Congestion Control
+\end_layout
+
+\begin_layout Itemize
+data structures
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+shared dict: in_flight
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+key: connect address
+\end_layout
+
+\begin_layout Itemize
+object: list of packets in flight along with each packet's send time
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+shared dict
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+key: connect address
+\end_layout
+
+\begin_layout Itemize
+object: list of RTT
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+micro TP (
+\begin_inset Formula $\mu\mbox{tp}$
+\end_inset
+
+) is one solution, but the main downside is a typical increase in latency
+ of 100ms
+\end_layout
+
+\begin_layout Itemize
+better would be to operate at 100% bandwidth and 0 increased latency.
+\end_layout
+
+\begin_layout Itemize
+how to estimate latency reliably?
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+send packet with timestamp, wait for reply
+\end_layout
+
+\begin_layout Itemize
+shouldn't uplink latency roughly equal downlink?
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+different services will saturate up or down.
+ eg.
+ Skype: up, torrents: down
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+how to deal with other algorithms (like 
+\begin_inset Formula $\mu\mbox{tp}$
+\end_inset
+
+)?
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+if we operate at 105 ms latency we will choke them out
+\end_layout
+
+\begin_layout Itemize
+if we operate at 95 ms we will be choked out
+\end_layout
+
+\begin_layout Itemize
+operate at 105 ms latency temporarily to estimate bandwidth
+\end_layout
+
+\begin_layout Itemize
+maintain 100ms latency and aim to send at 1/2 estimated bandwidth 
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+A: packets in flight -packet -send time
+\end_layout
+
+\begin_layout Standard
+B: response packets -response ID -recieve time
+\end_layout
+
+\begin_layout Standard
+managed dict for A -contains managed priority queue -queued objects are
+ packets -packets contain -send time -response ID 
+\end_layout
+
+\begin_layout Standard
+managed dict for B -contains managed priority queue -queued objects are
+ packets -packets contain -receive time -response ID 
+\end_layout
+
+\begin_layout Standard
+congestion manager object -push sent packets and responses using queues
+ -contains managed dict to track state of connections (addresses are keys)
+ -possible states are: -0:unknown -1:choked -2:available capacity 
+\end_layout
+
+\begin_layout Standard
+-private -dict with addresses as keys -dict elements are priority queues
+ of sent packets sorted by send time -dict with addresses as keys -dict
+ elements are priority queues of response packets sorted by receive time
+ -dict with addresses as keys -dict elements are congestion estimation values
+ [latest RTT, min RTT, bytess_in_flight, max bandwidth?] 
+\end_layout
+
+\begin_layout Standard
+fuction -process_address(address) """Finds any matches in send and received
+ queues.
+ Updates congestion info for particular address Could be run in process
+ pool.
+ """
+\end_layout
+
+\end_body
+\end_document

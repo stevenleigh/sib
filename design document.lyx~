@@ -1,0 +1,751 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 2cm
+\topmargin 2cm
+\rightmargin 2cm
+\bottommargin 2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle fancy
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+CloudCache Design Document
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FloatList figure
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Overview
+\end_layout
+
+\begin_layout Standard
+CloudeCache is a utility for storing files among any other connected computers.
+ It can be used for off-site file backups, transferring files to remote
+ computers, accessing your same files anywhere in the world and sharing
+ files publicly.
+ Computer users will be able to leverage their unused hard disk space and
+ network bandwidth to essentially acquire the aforementioned benefits at
+ no significant cost.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Core Design Ideas
+\end_layout
+
+\begin_layout Itemize
+remotes cannot be trusted with anything.
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Everything should be encrypted as strongly as possible before being sent
+ to a remote.
+ 
+\end_layout
+
+\begin_layout Itemize
+Everything stored on the remote should be verified frequently.
+\end_layout
+
+\begin_layout Itemize
+All claims by remotes (eg.
+ bandwidth, uptime, etc.) should be verified using local experience and peer
+ references
+\end_layout
+
+\end_deeper
+\begin_layout Subsection
+Backbone
+\end_layout
+
+\begin_layout Itemize
+encrypt using encryptrsync
+\end_layout
+
+\begin_layout Itemize
+send file to remote
+\end_layout
+
+\begin_layout Itemize
+receive file from remote
+\end_layout
+
+\begin_layout Itemize
+decrypt
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Main Features
+\end_layout
+
+\begin_layout Subsection
+File Priorities
+\end_layout
+
+\begin_layout Itemize
+different files or folders can be set to be backed up different amounts
+ and in different ways (optimize latency over reliability, etc.)
+\end_layout
+
+\begin_layout Subsection
+Verification
+\end_layout
+
+\begin_layout Itemize
+users can ask remote computers for hashes plus salts of their files.
+ This can be used to ensure the remote computer is actually storing the
+ desired files
+\end_layout
+
+\begin_layout Itemize
+users can download and upload files at random times to verify remote bandwidth
+\end_layout
+
+\begin_layout Itemize
+remote computers can periodically hash local files to ensure consistency
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+if consistency failures, primary users should be informed asap.
+\end_layout
+
+\end_deeper
+\begin_layout Subsection
+Expandability
+\end_layout
+
+\begin_layout Itemize
+all operations by utility will have a utility version number associated
+ so utility upgrades can be more easily backwards compatible
+\end_layout
+
+\begin_layout Itemize
+allow plugins for
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+determining how trust is computed
+\end_layout
+
+\begin_layout Itemize
+custom bandwidth/cache/space optimizations
+\end_layout
+
+\end_deeper
+\begin_layout Subsection
+Decentralized DNS
+\end_layout
+
+\begin_layout Itemize
+no DNS server is needed.
+ Clients will communicate regularly and if their IP changes they tell their
+ peers.
+ URLs will be given preference if they exist.
+\end_layout
+
+\begin_layout Subsection
+Version Control
+\end_layout
+
+\begin_layout Itemize
+able to recover previous versions of files
+\end_layout
+
+\begin_layout Itemize
+able to merge files (deal with conflicts)
+\end_layout
+
+\begin_layout Itemize
+able to view file history: who modified it when
+\end_layout
+
+\begin_layout Subsection
+Peers
+\end_layout
+
+\begin_layout Itemize
+users are verified locally using certificates? 
+\end_layout
+
+\begin_layout Itemize
+can add specific users as trusted computers (friends, family, etc.)
+\end_layout
+
+\begin_layout Itemize
+can share files to specific peers by encrypting with specific keys
+\end_layout
+
+\begin_layout Itemize
+can share files publicly by not encrypting (how are file lists distributed?)
+\end_layout
+
+\begin_layout Itemize
+users can view which peers have which files and how many backups exist
+\end_layout
+
+\begin_layout Itemize
+users can allow access to groups of people
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+voluntary creation of signing keys.
+ eg.
+ keys for:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+universities
+\end_layout
+
+\begin_layout Itemize
+governments
+\end_layout
+
+\begin_layout Itemize
+companies
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+trust networks
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+validity of content can be verified through trust networks
+\end_layout
+
+\begin_layout Itemize
+trust metrics?
+\end_layout
+
+\end_deeper
+\begin_layout Subsection
+Bandwidth Optimization
+\end_layout
+
+\begin_layout Itemize
+only transmit file deltas (use rsync?)
+\end_layout
+
+\begin_layout Itemize
+transmits parts of files from numerous computers at once to take advantage
+ of multiple users' worth of upload bandwidth
+\end_layout
+
+\begin_layout Subsection
+Cache Optimization
+\end_layout
+
+\begin_layout Itemize
+store commonly accessed files on computers with high bandwidth (maybe even
+ pay for a small amount of space on something like amazon s3)
+\end_layout
+
+\begin_layout Itemize
+store files on remote computers that are near by to minimize latency, but
+ not too close to risk losses from local disasters
+\end_layout
+
+\begin_layout Subsection
+Space Optimization
+\end_layout
+
+\begin_layout Itemize
+files that are shared publicly don't need to be backed up as many times
+\end_layout
+
+\begin_layout Itemize
+incremental backups
+\end_layout
+
+\begin_layout Itemize
+user can specify how much space they want to use, so at some point incremental
+ backups can be deleted
+\end_layout
+
+\begin_layout Itemize
+users can specify if they want to store full backups as well
+\end_layout
+
+\begin_layout Subsection
+Encryption
+\end_layout
+
+\begin_layout Itemize
+able to encrypt with encryptrsync for fast incremental uploads, but able
+ to use stronger encryption if fast incrementals aren't desired
+\end_layout
+
+\begin_layout Itemize
+encrypt local files for security purposes
+\end_layout
+
+\begin_layout Itemize
+encrypt files before they are sent to a remote computer so the remote computer
+ can store them, but not know what the files consist of
+\end_layout
+
+\begin_layout Itemize
+encrypt files with different keys, which can be given out, thereby controlling
+ outside access to said files
+\end_layout
+
+\begin_layout Itemize
+users can access all files using only their password and ip address or url.
+\end_layout
+
+\begin_layout Itemize
+allow re-encrypting files in case master, or peer key is compromised
+\end_layout
+
+\begin_layout Itemize
+varying levels of encryption with high level explanations 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+encryption that likely can't be hacked by:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+grandma (+0% storage usage and +0% transfer times)
+\end_layout
+
+\begin_layout Itemize
+ordinary citizens (+1% storage usage and +5% transfer times)
+\end_layout
+
+\begin_layout Itemize
+large organization (+4% storage usage and +10% transfer times)
+\end_layout
+
+\begin_layout Itemize
+powerful governments (+8% storage usage and +20% transfer times)
+\end_layout
+
+\begin_layout Itemize
+powerful governments for the next 25 years (+16% storage usage and +40%
+ transfer times)
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Secondary Features
+\end_layout
+
+\begin_layout Itemize
+git like version control?
+\end_layout
+
+\begin_layout Itemize
+nice gui
+\end_layout
+
+\begin_layout Itemize
+interface for adding annotation/comments/voting/editing?
+\end_layout
+
+\begin_layout Itemize
+maintain file metadata.
+ eg.
+ file permissions, hardlinks, etc.
+\end_layout
+
+\begin_layout Itemize
+annotation/comments of files, parts of files, and versions of files from
+ peers and certain groups of peers
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+voting/rating on files/comments
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+works on desktops and cell phones
+\end_layout
+
+\begin_layout Itemize
+trending content both from friends and public
+\end_layout
+
+\begin_layout Itemize
+distributed search
+\end_layout
+
+\begin_layout Itemize
+distributed recommender system
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Economy
+\end_layout
+
+\begin_layout Itemize
+By default, users can 
+\series bold
+elect
+\series default
+ to trade their services for other user's services eliminating the need
+ for money in the transactions (very low barrier to entry).
+ Trading HD space is mutually beneficial, as users will gain off-site backups,
+ backups spanned over multiple HD's and increased file transfer speeds (files
+ are spread across many computers).
+\end_layout
+
+\begin_layout Itemize
+users can publish their HD space, max up and download bandwidth, up and
+ download bandwidth reliability, up/downtime.
+ With this information other users can bid to keep their files there.
+ 
+\end_layout
+
+\begin_layout Itemize
+users should be able to maintain a bidding profile so pricing can change
+ dynamically
+\end_layout
+
+\begin_layout Itemize
+bidding should be conscious of pricing of industrial options eg.
+ amazon s3
+\end_layout
+
+\begin_layout Itemize
+users can store the following time series of information about remotes
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+upload and download rates
+\end_layout
+
+\begin_layout Itemize
+file verification successes and failures
+\end_layout
+
+\begin_layout Itemize
+up/downtime
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+users can ask potential peers for a list of their past peers.
+ Users can then contact those peers and download their time series to verify
+ the remotes claims of bandwidth and uptime.
+ Mainly users would only communicate with a number from 1-10 indicating
+ how 
+\series bold
+truthful
+\series default
+ they find the remotes published stats.
+\end_layout
+
+\begin_layout Itemize
+if a remote has lots of peers that trust them then their ratings of other
+ peers can be trusted more (somewhat like pagerank algo?)
+\end_layout
+
+\begin_layout Itemize
+would need some sort of distributed crawler to get trust numbers for many
+ users?
+\end_layout
+
+\begin_layout Itemize
+allow a trial period where dummy data is uploaded to a remote and trust
+ is measured
+\end_layout
+
+\begin_layout Itemize
+allow trust to be computed in many different ways (plugin), one of which
+ includes a user input.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Processes and Data Structures
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename User uploading data to non-friend remote.pdf
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+User uploading to stranger flowchart
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename User downloading data from stranger.pdf
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+User downloading data from stranger flowchart.
+ (Note: deltas are computed on encrypted files and not decrypted files.
+ This reduces the amount of data that needs to be transferred while not
+ revealing any data to the stranger.
+ For example, it makes step 2 in this flowchart possible.
+ If a given file is always edited in the same place, then the cumulative
+ delta could be very small.
+ This would not be possible if the deltas were computed on a decrypted file
+ and then encrypted and then uploaded.)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Data stored on non-friend remote.pdf
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Data stored on non-friendly remote
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Programming Tools
+\end_layout
+
+\begin_layout Itemize
+python (use Kivy)
+\end_layout
+
+\begin_layout Itemize
+HTML 5 app?
+\end_layout
+
+\begin_layout Itemize
+rsynclib
+\end_layout
+
+\begin_layout Itemize
+curl
+\end_layout
+
+\begin_layout Itemize
+encryprsync?
+\end_layout
+
+\begin_layout Itemize
+duplicity?
+\end_layout
+
+\end_body
+\end_document

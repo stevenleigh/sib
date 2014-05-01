@@ -1,0 +1,1 @@
+["machine_A", "../resource/peer_A_storage", {"test_share": ["machine_C", "machine_A"]}, {}, {"machine_C": "http://localhost:20007"}]

@@ -1,0 +1,14 @@
+modified:
+root/alice.txt
+	-added lines at beginning
+	-deleted paragraph in middle
+
+added these folders:
+root/New folder
+root/folder/New folder
+
+renamed:
+root/folder/alice.txt to root/folder/alice_rename.txt
+
+copied 
+root/folder/alice.txt to root/folder/alice_rename.txt
