@@ -37,11 +37,12 @@ class local_blob_manager:
 
 		
 		self.store_file_blobs(key, commit_hash, parent_commit_hash, storage_directory, working_directory)
+		local_blob_manager.write_commit_meta(working_directory, commit_hash)
 				
 		return commit_hash
 				
 	
-	
+	#TODO: function too big. split up or simplify
 	def store_file_blobs(self, key, commit_hash, parent_commit_hash, storage_directory, working_directory):
 		logging.info('commit_hash: %s, parent_commit_hash: %s, storage_directory: %s, working_directory: %s', 
 					commit_hash, parent_commit_hash, storage_directory, working_directory)
@@ -307,11 +308,40 @@ class local_blob_manager:
 			return self.blobs_to_restore_blob(key, storage_directory, fb.parent_hash)
 	
 		
+	@staticmethod		
+	def get_file_change_times(wd):
+		"""Traverse through working directory wd and read the date modified time for each file.
+		Return a list of full file paths from the wd and a corresponding list of times.
+		"""
+		file_list = []
+		mod_times = []
+		for root, dirs, files in os.walk(wd):
+			for name in files:
+				file_list.append(os.path.join(root, name))
+				mod_times.append(os.path.getmtime(os.path.join(root, name)))
+		return file_list, mod_times
+	
+	
+	@staticmethod
+	def write_commit_meta(wd, commit_hash):
+		"""Write the meta data for a commit.  The path is wd/.sib/.
+		Various files are written.
+		last_mod_time.txt : mod_times file_list
+		last_commit_hash.txt
+		"""
+		if not os.path.exists(os.path.join(wd,'.sib')):
+			os.mkdir(os.path.join(wd,'.sib'))
+		
+		f_time = open(os.path.join(wd,'.sib','last_mod_time.txt'),'w')  #TODO: use with statement
+		file_list, mod_times = local_blob_manager.get_file_change_times(wd)
+		while(not file_list):  #test for empty list
+			f_time.write("" + mod_times.pop() + " " + file_list.pop())
+		f_time.close()
+		
+		f_commit = open(os.path.join(wd,'.sib','last_commit_hash.txt'),'w')
+		f_commit.write(commit_hash)
+		f_commit.close()
 			
-
-
-
-
 
 
 
