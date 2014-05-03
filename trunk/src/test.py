@@ -2,28 +2,27 @@
 
 
 from file_blob import file_blob
-from commit_blob import commit_blob
+#from commit_blob import commit_blob
 from local_blob_manager import local_blob_manager
-from socketserver import SocketServer
-from packetprepostprocessor import PacketPrePostprocessor
-from jsonserver import JSONServer
-from packet import Packet
+#from socketserver import SocketServer
+#from packetprepostprocessor import PacketPrePostprocessor
+#from jsonserver import JSONServer
+#from packet import Packet
 from sib import SIB
 import time
-from multiprocessing import Process, Queue, Manager
+#from multiprocessing import Process, Queue, Manager
 import os
-import peer_service
 import operation_commands
 
 
-import random
+#import random
 import logging
 import shutil
-import socket
+#import socket
 import cProfile
-import pstats
-from threading import Thread
-import json
+#import pstats
+#from threading import Thread
+#import json
 
 
 pr = cProfile.Profile()
