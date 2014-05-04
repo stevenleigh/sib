@@ -20,7 +20,9 @@ class tree_blob (file_blob):
 		tree_text=''
 		depth=0  #keep track of depth of directory, and indicate such using tabs
 		root_depth = len(string.split(directory_path,'/'))
-		for dir_name, dir_names, file_names in os.walk(directory_path):			
+		for dir_name, dir_names, file_names in os.walk(directory_path):
+			if '/.sib' in dir_name:  #ignore .sib folder
+				continue			
 			depth = len(string.split(dir_name,'/')) - root_depth
 			(head,tail) = os.path.split(dir_name)
 			tree_text+= ' '*depth + '/' + tail + '\n'
