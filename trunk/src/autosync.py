@@ -36,7 +36,7 @@ class AutoSync (FileSystemEventHandler):
 		commit_packet = self.json_response_dict[my_rpc_id]
 		commit_hash = commit_packet.json_RPC_object['result']
 		
-		operation_commands.socket_command(method_name='push_update_to_peer', params=[self.share_ID, None, None], to=('localhost', self.command_port))
+		operation_commands.socket_command(method_name='push_update_to_peer', params=[self.share_ID, None, commit_hash], to=('localhost', self.command_port))
 		time.sleep(4)  #@TODO:  wait until pushing updates is complete, then run next command
 		#operation_commands.socket_command(method_name='sync_new_commit', params=[self.key, commit_hash, self.share_ID], to=('localhost', self.command_port))
 		

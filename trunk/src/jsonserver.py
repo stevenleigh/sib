@@ -79,7 +79,7 @@ class JSONServer():
 		name = p_call.json_RPC_object["method"]
 		params = p_call.json_RPC_object["params"]
 		rpc_id = p_call.json_RPC_object.get("id")
-		logging.debug('JSONRPC call.  method: %s, params: %s, rpc_id: %s, packet: %s'%(name, params, rpc_id, p_call))
+		logging.debug('JSONRPC call.  self.my_machine_ID: %s, method: %s, params: %s, rpc_id: %s, packet: %s'%(self.my_machine_ID, name, params, rpc_id, p_call))
 		if name not in self.method_dict:
 			logging.error('JSONRPC method does not exist: ' %(name))
 			return True
@@ -216,7 +216,7 @@ class JSONServer():
 		'''
 		[ver, congest, args] = params
 		[share_ID, machine_ID, current_commit] = args
-		logging.info('Pushing update for %s to %s' %(share_ID, machine_ID))
+		logging.info('Pushing update for %s to %s and updated to commit: %s' %(share_ID, machine_ID, current_commit))
 		
 		#Find all machines to push this update to
 		to_transfer = dict()
@@ -368,9 +368,10 @@ class JSONServer():
 		
 		bm = local_blob_manager()
 		working_directory_list = self.autosync_share_working_directory_dict[share_ID]
+		logging.debug('directories to sync: %s' %(working_directory_list))
 		for working_directory in working_directory_list:
-			logging.debug('sync hash: %s'%(self.working_directory_commit_dict.get(working_directory,None)))
 			file_list, mod_times, last_commit_hash = local_blob_manager.read_commit_meta(working_directory)
+			logging.debug('parent sync hash: %s'%(last_commit_hash))
 			if commit_hash == last_commit_hash:
 				logging.debug('Working directory already contains desired commit')
 				continue

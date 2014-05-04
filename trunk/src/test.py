@@ -35,6 +35,13 @@ os.mkdir(peer_B_storage)
 os.mkdir(peer_C_storage)
 os.mkdir(os.path.join(peer_A_storage, 'test_share'))
 os.mkdir(os.path.join(peer_B_storage, 'test_share'))
+shutil.rmtree('../resource/restore_directory_1')
+shutil.rmtree('../resource/restore_directory_2')
+shutil.rmtree('../resource/restore_directory_3')
+os.mkdir('../resource/restore_directory_1')
+os.mkdir('../resource/restore_directory_2')
+os.mkdir('../resource/restore_directory_3')
+
 
 
 
@@ -338,7 +345,7 @@ print '***Testing automatic sync'
 logging.debug('Testing automatic sync')
 print '************************************************************************'
 #shutil.rmtree('../resource/restore_directory_3/.sib')
-shutil.rmtree('../resource/restore_directory_1/root/.sib')  #@TODO: why does one have root?
+#shutil.rmtree('../resource/restore_directory_1/root/.sib')  #@TODO: why does one have root?
 
 sib_c = SIB()
 sib_c.new_sockets.put(11130)
