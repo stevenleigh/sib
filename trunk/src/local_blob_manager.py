@@ -18,6 +18,11 @@ class local_blob_manager:
 		"""Traverse working directory and store all file blobs"""
 		logging.info('working_directory: %s, storage_directory: %s, user_name: %s, commit_msg: %s, parent_commit_hash: %s, other_parent_commit_hash: %s', 
 					working_directory, storage_directory, user_name, commit_msg, parent_commit_hash, other_parent_commit_hash)
+		
+		file_list, mod_times, last_commit_hash = local_blob_manager.read_commit_meta(working_directory)
+		if parent_commit_hash==None and last_commit_hash!=None:
+			parent_commit_hash = last_commit_hash
+		
 		#create and store tree blob
 		tb = tree_blob()
 		tb_tree_text = tb.create_tree_text(key, working_directory)
@@ -341,6 +346,35 @@ class local_blob_manager:
 		f_commit = open(os.path.join(wd,'.sib','last_commit_hash.txt'),'w')
 		f_commit.write(commit_hash)
 		f_commit.close()
+		
+		
+	@staticmethod
+	def read_commit_meta(wd):
+		"""Read the meta data for a commit.  The path is wd/.sib/.
+		Various files are read.
+		last_mod_time.txt : mod_times file_list
+		last_commit_hash.txt
+		Returns file_list, mod_times, last_commit_hash
+		"""
+		file_list = []
+		mod_times = []
+		last_commit_hash = None
+		
+		if not os.path.exists(os.path.join(wd,'.sib')):
+			return file_list, mod_times, last_commit_hash
+		
+		f_time = open(os.path.join(wd,'.sib','last_mod_time.txt'),'r')  #TODO: use with statement
+		for line in f_time:
+			space_idx = line.index(' ')
+			mod_times.append(line[0:space_idx])
+			file_list.append(line[space_idx:])
+		f_time.close()
+		
+		f_commit = open(os.path.join(wd,'.sib','last_commit_hash.txt'),'r')
+		last_commit_hash = f_commit.readline()
+		f_commit.close()
+		
+		return file_list, mod_times, last_commit_hash
 			
 
 

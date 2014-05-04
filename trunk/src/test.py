@@ -2,30 +2,15 @@
 
 
 from file_blob import file_blob
-#from commit_blob import commit_blob
 from local_blob_manager import local_blob_manager
-#from socketserver import SocketServer
-#from packetprepostprocessor import PacketPrePostprocessor
-#from jsonserver import JSONServer
-#from packet import Packet
 from sib import SIB
+
 import time
-#from multiprocessing import Process, Queue, Manager
 import os
 import operation_commands
-
-
-#import random
 import logging
 import shutil
-#import socket
-import cProfile
-#import pstats
-#from threading import Thread
-#import json
 
-
-pr = cProfile.Profile()
 
 
 logging.basicConfig(
@@ -41,36 +26,15 @@ peer_B_storage = '../resource/peer_B_storage'  #simulated remote peer
 peer_C_storage = '../resource/peer_C_storage'  #simulated remote peer
 
 
-#empty the storage directory
-for root, dirs, files in os.walk(peer_A_storage, topdown=False):
-    for name in files:
-        os.remove(os.path.join(root, name))
-    for name in dirs:
-        os.rmdir(os.path.join(root, name))
-        
-        
-#empty the storage directory
-for root, dirs, files in os.walk(peer_B_storage, topdown=False):
-    for name in files:
-        os.remove(os.path.join(root, name))
-    for name in dirs:
-        os.rmdir(os.path.join(root, name))
-        
-        
-#empty the storage directory
-for root, dirs, files in os.walk(peer_C_storage, topdown=False):
-    for name in files:
-        os.remove(os.path.join(root, name))
-    for name in dirs:
-        os.rmdir(os.path.join(root, name))
-        
-
+#prepare storage and working directories
+shutil.rmtree(peer_A_storage)
+shutil.rmtree(peer_B_storage)
+shutil.rmtree(peer_C_storage)
+os.mkdir(peer_A_storage)
+os.mkdir(peer_B_storage)
+os.mkdir(peer_C_storage)
 os.mkdir(os.path.join(peer_A_storage, 'test_share'))
 os.mkdir(os.path.join(peer_B_storage, 'test_share'))
-
-
-
-
 
 
 
@@ -151,6 +115,7 @@ print '***Testing loading a whole directory as an initial commit'
 logging.debug('Testing loading a whole directory as an initial commit')
 print '************************************************************************'
 #load a whole directory as an initial commit
+shutil.rmtree('../resource/test_directory_1/root/.sib')
 bm=local_blob_manager()
 commit_hash_1 = bm.commit_directory(key, '../resource/test_directory_1/root',
 				os.path.join(peer_A_storage, 'test_share'), 'joe.keur', 'first commit msg')
@@ -372,6 +337,9 @@ print '************************************************************************'
 print '***Testing automatic sync'
 logging.debug('Testing automatic sync')
 print '************************************************************************'
+#shutil.rmtree('../resource/restore_directory_3/.sib')
+shutil.rmtree('../resource/restore_directory_1/root/.sib')  #@TODO: why does one have root?
+
 sib_c = SIB()
 sib_c.new_sockets.put(11130)
 sib_c.js.storage_directory = peer_C_storage

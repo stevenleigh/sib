@@ -32,7 +32,6 @@ class JSONServer():
 		self.share_machine_dict = self.manager.dict()  #maps share IDs to machine IDs
 		#self.share_key_dict = self.manager.dict()  #maps share IDs to corresponding public keys (or certificates?)  #TODO: implement
 		self.machine_address_dict = self.manager.dict()  #maps machine IDs to url (IP:port)
-		self.working_directory_commit_dict = self.manager.dict()  #maps working directories to their parent commits
 		self.autosync_share_working_directory_dict = self.manager.dict()  #lists all autosynced working directories for a given share 
 		
 		#register JSONRPC functions
@@ -319,16 +318,11 @@ class JSONServer():
 		[key, working_directory, share_ID, user_name, commit_msg, parent_commit_hash, other_parent_commit_hash] = args
 		logging.debug('[key, working_directory, share_ID, user_name, commit_msg, parent_commit_hash, other_parent_commit_hash]: ' \
 					%([key, working_directory, share_ID, user_name, commit_msg, parent_commit_hash, other_parent_commit_hash]))
-		
-		#If parent_commit_hash is None, look it up in self.working_directory_commit_dict
-		if parent_commit_hash==None and working_directory in self.working_directory_commit_dict:
-			parent_commit_hash = self.working_directory_commit_dict[working_directory]
-			
+					
 		#@TODO:  If share_ID is None, look through all shares for the parent_commit_hash and use its share
 		bm = local_blob_manager()
 		commit_hash = bm.commit_directory(key, working_directory, os.path.join(self.storage_directory, share_ID), 
 						user_name, commit_msg, parent_commit_hash, other_parent_commit_hash)
-		self.working_directory_commit_dict.update({working_directory:commit_hash})
 		
 		#@TODO: packet response is to myself for it is stored in shared object json_response_dict for use with autosync.  Allow responding to other machines?
 		return_address = ('localhost', self.command_port)
@@ -347,7 +341,6 @@ class JSONServer():
 		bm = local_blob_manager()
 		#@TODO:  look for version already in working_directory and do differential update
 		bm.restore_directory(key, working_directory, self.storage_directory, commit_hash)
-		self.working_directory_commit_dict.update({working_directory:commit_hash})
 		#@TODO: packet response?
 		
 		
@@ -377,11 +370,11 @@ class JSONServer():
 		working_directory_list = self.autosync_share_working_directory_dict[share_ID]
 		for working_directory in working_directory_list:
 			logging.debug('sync hash: %s'%(self.working_directory_commit_dict.get(working_directory,None)))
-			if commit_hash == self.working_directory_commit_dict.get(working_directory,None):
+			file_list, mod_times, last_commit_hash = local_blob_manager.read_commit_meta(working_directory)
+			if commit_hash == last_commit_hash:
 				logging.debug('Working directory already contains desired commit')
 				continue
 			bm.restore_directory(key, working_directory, os.path.join(self.storage_directory, share_ID), commit_hash)
-			self.working_directory_commit_dict.update({working_directory:commit_hash})
 			
 		
 		
