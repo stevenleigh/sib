@@ -119,11 +119,8 @@ refine documentation
 \end_layout
 
 \begin_layout Itemize
-common utilities script
-\end_layout
-
-\begin_layout Itemize
-source control
+move common utilities to sib namespace (make the commands static functions
+ in sib.py file)
 \end_layout
 
 \begin_layout Itemize
@@ -161,24 +158,6 @@ profiling
 \end_layout
 
 \begin_layout Itemize
-networking
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-implement file block request
-\end_layout
-
-\begin_layout Itemize
-implement send commits in range
-\end_layout
-
-\begin_layout Itemize
-implement matching commits from peer
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
 poll peers for new commits
 \end_layout
 
@@ -208,6 +187,18 @@ networking
 
 \begin_deeper
 \begin_layout Itemize
+implement file block request
+\end_layout
+
+\begin_layout Itemize
+implement send commits in range
+\end_layout
+
+\begin_layout Itemize
+implement matching commits from peer
+\end_layout
+
+\begin_layout Itemize
 delete blob message
 \end_layout
 
@@ -223,6 +214,10 @@ command sockets only used for initializing new high bandwidth sockets
 \end_deeper
 \begin_layout Itemize
 packet level encryption
+\end_layout
+
+\begin_layout Itemize
+better congestion control
 \end_layout
 
 \end_deeper
@@ -358,6 +353,10 @@ file blobs
 \end_layout
 
 \end_deeper
+\begin_layout Itemize
+source control
+\end_layout
+
 \begin_layout Section
 Overview
 \end_layout
@@ -400,6 +399,32 @@ target "https://pypi.python.org/pypi/watchdog"
 \end_inset
 
 
+\end_layout
+
+\begin_layout Section
+Getting Started
+\end_layout
+
+\begin_layout Enumerate
+install pip
+\end_layout
+
+\begin_layout Enumerate
+install dependencies
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+$pip install pycrypto
+\end_layout
+
+\begin_layout Enumerate
+$pip install watchdog
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+import sib (main entry point is sib.py)
 \end_layout
 
 \begin_layout Section
