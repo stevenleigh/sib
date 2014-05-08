@@ -4,10 +4,10 @@
 from file_blob import file_blob
 from local_blob_manager import local_blob_manager
 from sib import SIB
+import sib
 
 import time
 import os
-import operation_commands
 import logging
 import shutil
 
@@ -262,11 +262,11 @@ sib_b.run_forever()
 sib_a.run_forever()
 time.sleep(0.5)
 
-operation_commands.socket_command(method_name='update_machine_address', params=['machine_B','localhost',11120], to=('localhost',11121))
-operation_commands.socket_command(method_name='update_machine_address', params=['machine_A','localhost',11121], to=('localhost',11120))
+sib.cmd(method_name='update_machine_address', params=['machine_B','localhost',11120], to=('localhost',11121))
+sib.cmd(method_name='update_machine_address', params=['machine_A','localhost',11121], to=('localhost',11120))
 time.sleep(0.5)
 
-operation_commands.socket_command(method_name='get_file', params=['machine_A', 'test_share', large_file_hash], to=('localhost',11120), frm=11121)
+sib.cmd(method_name='get_file', params=['machine_A', 'test_share', large_file_hash], to=('localhost',11120), frm=11121)
 
 time.sleep(5)
 sib_b.terminate()
@@ -293,9 +293,9 @@ sib_a.js.my_machine_ID = 'machine_A'
 
 sib_a.run_forever()
 time.sleep(0.5)
-operation_commands.socket_command(method_name='update_machine_address', params=['machine_A','localhost',10101], to=('localhost',11123))
-operation_commands.socket_command(method_name='add_share_to_machine', params=['test_share','machine_B'], to=('localhost',11123))
-operation_commands.socket_command(method_name='add_share_to_machine', params=['test_share','machine_A'], to=('localhost',11123))
+sib.cmd(method_name='update_machine_address', params=['machine_A','localhost',10101], to=('localhost',11123))
+sib.cmd(method_name='add_share_to_machine', params=['test_share','machine_B'], to=('localhost',11123))
+sib.cmd(method_name='add_share_to_machine', params=['test_share','machine_A'], to=('localhost',11123))
 time.sleep(2)
 sib_a.terminate()
 
@@ -323,13 +323,13 @@ sib_c.js.my_machine_ID = 'machine_C'
 sib_a.run_forever()
 sib_c.run_forever()
 time.sleep(0.5)
-operation_commands.socket_command(method_name='add_share_to_machine', params=['test_share','machine_A'], to=('localhost',11125))
-operation_commands.socket_command(method_name='add_share_to_machine', params=['test_share','machine_C'], to=('localhost',11125))
-operation_commands.socket_command(method_name='add_share_to_machine', params=['test_share','machine_C'], to=('localhost',11126))
-operation_commands.socket_command(method_name='update_machine_address', params=['machine_C','localhost',11126], to=('localhost',11125))
-operation_commands.socket_command(method_name='update_machine_address', params=['machine_A','localhost',11125], to=('localhost',11126))
+sib.cmd(method_name='add_share_to_machine', params=['test_share','machine_A'], to=('localhost',11125))
+sib.cmd(method_name='add_share_to_machine', params=['test_share','machine_C'], to=('localhost',11125))
+sib.cmd(method_name='add_share_to_machine', params=['test_share','machine_C'], to=('localhost',11126))
+sib.cmd(method_name='update_machine_address', params=['machine_C','localhost',11126], to=('localhost',11125))
+sib.cmd(method_name='update_machine_address', params=['machine_A','localhost',11125], to=('localhost',11126))
 time.sleep(0.5)
-operation_commands.socket_command(method_name='push_update_to_peer', params=['test_share','machine_C', None], to=('localhost',11125))
+sib.cmd(method_name='push_update_to_peer', params=['test_share','machine_C', None], to=('localhost',11125))
 time.sleep(5)
 sib_a.terminate()
 sib_c.terminate()
@@ -363,29 +363,29 @@ sib_a.run_forever()
 
 
 time.sleep(0.5)
-operation_commands.socket_command(method_name='add_share_to_machine', params=['test_share','machine_A'], to=('localhost',11130))
-operation_commands.socket_command(method_name='add_share_to_machine', params=['test_share','machine_A'], to=('localhost',11131))
-operation_commands.socket_command(method_name='add_share_to_machine', params=['test_share','machine_C'], to=('localhost',11130))
-operation_commands.socket_command(method_name='add_share_to_machine', params=['test_share','machine_C'], to=('localhost',11131))
-operation_commands.socket_command(method_name='update_machine_address', params=['machine_C','localhost',11130], to=('localhost',11131))
-operation_commands.socket_command(method_name='update_machine_address', params=['machine_A','localhost',11131], to=('localhost',11130))
+sib.cmd(method_name='add_share_to_machine', params=['test_share','machine_A'], to=('localhost',11130))
+sib.cmd(method_name='add_share_to_machine', params=['test_share','machine_A'], to=('localhost',11131))
+sib.cmd(method_name='add_share_to_machine', params=['test_share','machine_C'], to=('localhost',11130))
+sib.cmd(method_name='add_share_to_machine', params=['test_share','machine_C'], to=('localhost',11131))
+sib.cmd(method_name='update_machine_address', params=['machine_C','localhost',11130], to=('localhost',11131))
+sib.cmd(method_name='update_machine_address', params=['machine_A','localhost',11131], to=('localhost',11130))
 time.sleep(0.5)
-operation_commands.socket_command(method_name='register_auto_sync', params=[key, '../resource/restore_directory_3', 'test_share','auto_sync_user', 10], to=('localhost',11130))
-operation_commands.socket_command(method_name='register_auto_sync', params=[key, '../resource/restore_directory_1', 'test_share','auto_sync_user', 10], to=('localhost',11131))
+sib.cmd(method_name='register_auto_sync', params=[key, '../resource/restore_directory_3/root', 'test_share','auto_sync_user', 10], to=('localhost',11130))
+sib.cmd(method_name='register_auto_sync', params=[key, '../resource/restore_directory_1/root', 'test_share','auto_sync_user', 10], to=('localhost',11131))
 
 #do some file operations.  A new commit should be created for each one.
 time.sleep(8)
-#copy a file
+logging.debug('copy a file')
 shutil.copy('../resource/restore_directory_3/root/alice.txt', '../resource/restore_directory_3/root/alice_copy.txt')
 time.sleep(16)
-#edit a file
+logging.debug('edit a file')
 f_auto = open('../resource/restore_directory_3/root/alice_copy.txt', 'a')
 f_auto.write('a bunch of mumbo jumbo.  a bunch of mumbo jumbo.  a bunch of mumbo jumbo')
 f_auto.close()
-time.sleep(8)
-#remove a file
+time.sleep(16)
+logging.debug('remove a file')
 os.remove('../resource/restore_directory_3/root/alice_copy.txt')
-time.sleep(8)
+time.sleep(16)
 
 sib_c.terminate()
 sib_a.terminate()
@@ -399,7 +399,7 @@ print '************************************************************************'
 print '***Testing printing all commits on peer C'
 logging.debug('Testing printing all commits on peer C')
 print '************************************************************************'
-operation_commands.print_all_commits(key, peer_C_storage)
+sib.print_all_commits(key, peer_C_storage)
 
 
 

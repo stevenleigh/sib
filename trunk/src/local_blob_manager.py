@@ -237,7 +237,7 @@ class local_blob_manager:
 		#restore tree folder structure
 		tb = tree_blob()
 		tb.load(key, storage_directory, cb.tree_hash)
-		tb.display()
+		logging.debug('tree to restore:\n%s'%(str(tb)))
 		file_listing = tb.write_directory_structure(key, storage_directory, working_directory)
 		
 		#restore files

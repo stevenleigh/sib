@@ -5,7 +5,6 @@ from local_blob_manager import local_blob_manager
 from sib import SIB
 import time
 import os
-import operation_commands
 
 
 import logging
@@ -65,6 +64,8 @@ class TestLocalBlobManager(unittest.TestCase):
         
         expected_string = '\n=========Printing details of file blob object=========\nmy_hash: a1f7f4060ff3f7c0b7c28b4a37990a851a225e475d47da7a0d82dec5\nparent_hash: \nblob_type: file\naggregate a[0:0] b[0:0] first line\nabcdefghijklmnopqrstuvwxyz\nthird line\nfourth\nlast line------------------------------------------------------'
         self.assertEqual(expected_string, str(fb))
+        
+
 
 
 if __name__ == '__main__':

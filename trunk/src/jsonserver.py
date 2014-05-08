@@ -1,8 +1,7 @@
 
 
 from packet import Packet
-from autosync import AutoSync
-from watchdog.observers import Observer
+from autosync import AutoSyncManager
 from local_blob_manager import local_blob_manager
 
 import logging
@@ -33,6 +32,8 @@ class JSONServer():
 		#self.share_key_dict = self.manager.dict()  #maps share IDs to corresponding public keys (or certificates?)  #TODO: implement
 		self.machine_address_dict = self.manager.dict()  #maps machine IDs to url (IP:port)
 		self.autosync_share_working_directory_dict = self.manager.dict()  #lists all autosynced working directories for a given share 
+		self.autosync_working_directory_dict = self.manager.dict()  #given a working directory return the auto sync observer
+		self.autosyncmanager = AutoSyncManager(self.json_response_dict)
 		
 		#register JSONRPC functions
 		self.method_dict = dict()  #function pointers to registered JSONRPC functions
@@ -62,7 +63,7 @@ class JSONServer():
 			
 	def terminate(self):
 		for p in self.process_pool:
-			p.terminate()
+			p.terminate()  #TODO: the autosync processes don't get cleaned up
 			
 
 	def serve_forever(self):
@@ -147,7 +148,10 @@ class JSONServer():
 		
 		
 		full_file_name = os.path.join(self.storage_directory, share_ID, file_name)
-		fp = open(full_file_name,'ab')
+		if os.path.isfile(full_file_name):
+			fp = open(full_file_name,'r+b')
+		else:
+			fp = open(full_file_name,'wb')
 		fp.seek(64*file_offset)
 		fp.write(packet.binary_blob)
 		fp.close()
@@ -216,7 +220,7 @@ class JSONServer():
 		'''
 		[ver, congest, args] = params
 		[share_ID, machine_ID, current_commit] = args
-		logging.info('Pushing update for %s to %s and updated to commit: %s' %(share_ID, machine_ID, current_commit))
+		logging.info('Pushing update for %s to %s and update to commit: %s' %(share_ID, machine_ID, current_commit))
 		
 		#Find all machines to push this update to
 		to_transfer = dict()
@@ -252,8 +256,8 @@ class JSONServer():
 					self.send_block_choke(p, address, 3)
 					to_transfer.update({rpc_id:[name, machine]})  #TODO: rpc_id collisions could occur
 		
-		logging.info('Sent has_file to %s for following files: %s' %(to_machines, to_transfer.keys()))
-		time.sleep(5)  #wait for responses from peer
+		logging.info('Sent has_file to %s with following RPC_IDs: %s' %(to_machines, to_transfer.keys()))
+		time.sleep(3)  #wait for responses from peer
 		
 		logging.debug('json_response_dict: %s'%(self.json_response_dict))
 		
@@ -274,7 +278,7 @@ class JSONServer():
 		if current_commit == None:
 			return
 		
-		time.sleep(5)  #wait for responses from peer
+		time.sleep(3)  #wait for responses from peer
 		#Tell machines to update to current commit
 		for machine in to_machines:
 			address = self.machine_address_dict[machine]
@@ -294,14 +298,12 @@ class JSONServer():
 		[ver, congest, args] = params
 		[key, monitoring_directory, share_ID, user_name, min_update_interval] = args
 		logging.debug('Initializing auto sync')
-		logging.debug('[key, monitoring_directory, share_ID, user_name, min_update_interval]'%(args))
+		logging.debug('[key, monitoring_directory, share_ID, user_name, min_update_interval]: %s' %(args))
 		
-		a_s = AutoSync(key, monitoring_directory, self.storage_directory, share_ID, user_name, self.my_machine_ID, self.command_port, self.json_response_dict, min_update_interval)
-		observer = Observer()
-		observer.schedule(a_s, monitoring_directory, recursive=True)
-		observer.start()
-		self.a_s_list.append(a_s)  #maintain reference to autosync object so it isn't garbage collected
+		self.autosyncmanager.create(key, monitoring_directory, self.storage_directory, share_ID, user_name, self.my_machine_ID, self.command_port, self.json_response_dict, min_update_interval)
+		#self.autosyncmanager.start(monitoring_directory)
 		
+		#update the list of all autosynced working directories for this share
 		working_directory_list = [monitoring_directory]
 		if share_ID in self.autosync_share_working_directory_dict:
 			working_directory_list.extend(self.autosync_share_working_directory_dict[share_ID])
@@ -316,8 +318,7 @@ class JSONServer():
 		#@TODO:  Ensure only authenticated users can access this command
 		[ver, congest, args] = params
 		[key, working_directory, share_ID, user_name, commit_msg, parent_commit_hash, other_parent_commit_hash] = args
-		logging.debug('[key, working_directory, share_ID, user_name, commit_msg, parent_commit_hash, other_parent_commit_hash]: ' \
-					%([key, working_directory, share_ID, user_name, commit_msg, parent_commit_hash, other_parent_commit_hash]))
+		logging.debug('[key, working_directory, share_ID, user_name, commit_msg, parent_commit_hash, other_parent_commit_hash]: ' %([key, working_directory, share_ID, user_name, commit_msg, parent_commit_hash, other_parent_commit_hash]))
 					
 		#@TODO:  If share_ID is None, look through all shares for the parent_commit_hash and use its share
 		bm = local_blob_manager()
@@ -353,7 +354,7 @@ class JSONServer():
 		logging.debug('[commit_hash, share_ID]: %s'%([commit_hash, share_ID]))
 		key=b'Sixteen byte key'  #@TODO:  what do I do about this key?
 		#@TODO:  this should sync by updating directory, not overwriting it.
-		
+		#@TODO:  should commit this directory before updating it
 		if share_ID not in self.autosync_share_working_directory_dict:
 			logging.error('No autosync directories with share_ID: %s' %(share_ID))
 			return
@@ -375,8 +376,12 @@ class JSONServer():
 			if commit_hash == last_commit_hash:
 				logging.debug('Working directory already contains desired commit')
 				continue
-			bm.restore_directory(key, working_directory, os.path.join(self.storage_directory, share_ID), commit_hash)
-			
+			if working_directory in self.autosync_working_directory_dict:  #disable watchdog while writing to directory
+				self.autosyncmanager.stop(working_directory)
+			(head, tail) = os.path.split(working_directory)  #TODO: this seems like a hack
+			bm.restore_directory(key, head, os.path.join(self.storage_directory, share_ID), commit_hash)
+			if working_directory in self.autosync_working_directory_dict:
+				self.autosyncmanager.start(working_directory)
 		
 		
 	
@@ -399,7 +404,7 @@ class JSONServer():
 		block_size = 5
 		file_offset = start_offset
 		
-		logging.debug('start_offset: %d, end_offset: %d' %(start_offset, end_offset))
+		logging.debug('file_name: %s start_offset: %d, end_offset: %d' %(file_name, start_offset, end_offset))
 		
 		while (file_offset < end_offset):  #@TODO: stop sending if given signal from return_address
 			logging.debug('file_offset: %d' %(file_offset))

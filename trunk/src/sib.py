@@ -1,13 +1,55 @@
 
-
+from commit_blob import commit_blob
 from socketserver import SocketServer
 from packetprepostprocessor import PacketPrePostprocessor
 from jsonserver import JSONServer
 from congest import CongestionManager
+
 from multiprocessing import Queue, Manager
 import logging
 import time
+import random
+import json
+import socket
+import os
 
+
+def cmd(method_name, params, to, blocking = False, congest=None, ver=1.0, frm=None, rpc_id=None, TTL=None):
+	logging.debug('[method_name, params, to, blocking, congest, ver, frm, rpc_id, TTL]: %s' %([method_name, params, to, blocking, congest, ver, frm, rpc_id, TTL]))
+	if rpc_id==None:
+		rpc_id=random.randint(1,10000)
+	msg_dict = dict()
+	msg_dict.update({'jsonrpc':2.0})
+	msg_dict.update({'method':method_name})
+	msg_dict.update({'params':[ver, congest, params]})
+	msg_dict.update({'id':rpc_id})
+	logging.debug('msg_dict: %s' %(msg_dict))
+	rpc_msg = json.dumps(msg_dict)
+	s2 = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+	s2.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+	if frm!= None:
+		s2.bind(('',frm))
+	s2.setblocking(0)
+	s2.sendto(rpc_msg, to)
+	logging.debug('Sent msg: %s, to: %s, from: %s, rpcID: %d' %(rpc_msg, to, frm, rpc_id))
+	
+	ret_msg = None
+	if blocking:
+		ret_msg = s2.recv(65507)  #65507 is max UDP packet size for IPv4
+	s2.close()
+	return ret_msg
+
+
+def print_all_commits(key, my_storage):
+	cb = commit_blob()
+	for root, dirs, files in os.walk(my_storage):
+		for name in files:
+			if name[0]=='_':  #commit filenames start with '_'
+				cb.load(key, root, name)
+				cb.display()
+				
+				
+				
 
 
 class SIB():
@@ -146,7 +188,7 @@ class SIB():
 
 		
 		
-		
+
 		
 		
 		
