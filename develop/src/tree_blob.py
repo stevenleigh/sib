@@ -27,7 +27,7 @@ class tree_blob (file_blob):
 	
 	
 	@staticmethod		
-	def serilaize(t, depth=0):
+	def serilaize_tree(t, depth=0):
 		"""Serializes the tree structure into a text format
 		"""
 		if t.node_type == 'file':
@@ -44,7 +44,7 @@ class tree_blob (file_blob):
 	
 	
 	@staticmethod	
-	def deserialize(tree_text, t, depth=0,):
+	def deserialize_tree(tree_text, t, depth=0,):
 		"""Deserializes the tree format from text into a tree of TreeNodes
 		"""
 		while True:
@@ -60,15 +60,27 @@ class tree_blob (file_blob):
 				tree_text = tree_blob.deserialize(remainder, child, depth+1)
 			else:
 				logging.error('invalid tree backslashes')
-			t.children.append(child)
+			t.children.append(child)  #TODO: when/how to make root node?
 		
 	
 	
-	def get_folders(self):
-		pass
-	
-	def get_files(self):
-		pass
+	def get_node_list(self, node_types=['folder','file'], root_node=None, root_full_name=''):
+		"""Lists full path names of nodes
+		Listing in depth-first.
+		node_types: list of node types to return.  
+		Use node_types=['folder','file'] to return everything.
+		"""
+		node_list = []
+		if root_node == None:
+			root_node = self.root_node
+			root_full_name = ''
+		root_full_name = root_full_name + '/' + root_node.name
+		if root_node.node_type in node_types:
+			node_list.append(root_full_name)
+		for c in root_node.children:
+			node_list.append(get_node_list(node_types, c, root_full_name))
+		return node_list
+		
 		
 	def get_node(self, full_name, node_type, root_node = None):
 		if root_node == None:
@@ -95,6 +107,8 @@ class tree_blob (file_blob):
 		child = tree_blob.TreeNode()
 		child.name = child_name
 		child.node_type = node_type
+		child.hash_hex = hash_hex
+		child.size = size
 		parent.children.append(child)
 
 	
