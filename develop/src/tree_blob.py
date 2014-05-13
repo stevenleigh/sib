@@ -102,7 +102,7 @@ class tree_blob (file_blob):
 	
 			
 	def add_node(self, full_name, node_type, hash_hex=None, size=None):
-		parent_folder, sep, child_name = folder.rpartition('/')
+		parent_folder, sep, child_name = full_name.rpartition('/')
 		parent = self.get_node(parent_folder, 'folder')
 		child = tree_blob.TreeNode()
 		child.name = child_name
@@ -119,6 +119,25 @@ class tree_blob (file_blob):
 		parent.children.remove(child)
 		
 	
+	def create_tree(self, key, path):
+		unused, unused, root_name = path.rpartition('/')
+		self.root_node = tree_blob.TreeNode()
+		self.root_node.name = root_name
+		self.root_node.node_type = 'folder'
+		
+		for parent_dir, dir_names, file_names in os.walk(path):
+			if '/.sib' in dir_name:  #ignore .sib folder
+				continue	
+			for dir_name in dir_names:
+				folder_path = os.path.relpath(os.path.join(parent_dir, dir_name), path)
+				self.add_node(folder_path, 'folder')
+			for file_name in file_names:
+				file_path = os.path.join(parent_dir, file_name) 
+				file = open(file_path,'r')
+				file_text = file.read()
+				self.add_node(os.path.relpath(file_path,path), 'file', self.compute_hash(key, file_text), len(file_text))
+				
+				
 	def create_tree_text(self, key, directory_path):
 		logging.info('encoding directory structure into text format for path: %s', directory_path)
 		tree_text=''
