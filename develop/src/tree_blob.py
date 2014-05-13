@@ -13,15 +13,15 @@ class tree_blob (file_blob):
 		self.blob_type='tree'
 		self.blob_pointers=()
 		self.blob_names=()
-	
+		self.root_node=None
 	
 	class TreeNode():
 		"""Structure for manipulating directory trees.
 		"""
 		def __init__(self):
-			self.type = ''  #'file', or 'folder'
 			self.name = ''
-			self.hash = ''
+			self.node_type = ''  #'file', or 'folder'
+			self.hash_hex = ''
 			self.size = 0
 			self.children = None  #child TreeNodes
 	
@@ -30,15 +30,15 @@ class tree_blob (file_blob):
 	def serilaize(t, depth=0):
 		"""Serializes the tree structure into a text format
 		"""
-		if t.type == 'file':
-			out_str = '%s/%s/%s/%d\n' %(' '*depth, t.name, t.hash, t.size)
-		elif t.type == 'folder':
+		if t.node_type == 'file':
+			out_str = '%s/%s/%s/%d\n' %(' '*depth, t.name, t.hash_hex, t.size)
+		elif t.node_type == 'folder':
 			out_str = ' '*depth + '/' + t.name + '\n'
 	
 			for child in t.children:
 				out_str.append(tree_blob.serialize(child, depth+1))
 		else:
-			logging.error('invalid TreeNode type: %s'%(t.type))
+			logging.error('invalid TreeNode type: %s'%(t.node_type))
 		
 		return out_str
 	
@@ -53,7 +53,7 @@ class tree_blob (file_blob):
 				return tree_text
 			child = tree_blob.TreeNode()
 			if line.count('/')==3:
-				[useless, child.name, child.hex, child.size] = line.split('/')
+				[useless, child.name, child.hash_hex, child.size] = line.split('/')
 				tree_text = remainder
 			elif line.count('/')==1:
 				[useless, child.name] = line.split('/')  #TODO: add folder hash
@@ -67,10 +67,42 @@ class tree_blob (file_blob):
 	def get_folders(self):
 		pass
 	
-	
 	def get_files(self):
 		pass
+		
+	def get_node(self, full_name, node_type, root_node = None):
+		if root_node == None:
+			root_node = self.root_node
+		depth = len(full_name.split('/'))
+		name, sep, remainder = full_name.partition('/')
+		for c in root_node.children:
+			if depth>0 and c.name==name:
+				return self.get_node(remainder, node_type, c)
+			elif depth==0 and c.name==name and c.node_type == node_type:
+				return c  #node found
+		return None  #node not found
+
+			
+	def has_node(self, full_name, node_type):
+		if self.get_node(full_name, node_type) == None:
+			return False
+		return True
 	
+			
+	def add_node(self, full_name, node_type, hash_hex=None, size=None):
+		parent_folder, sep, child_name = folder.rpartition('/')
+		parent = self.get_node(parent_folder, 'folder')
+		child = tree_blob.TreeNode()
+		child.name = child_name
+		child.node_type = node_type
+		parent.children.append(child)
+
+	
+	def rm_node(self, full_name, node_type):
+		parent_folder, sep, child_name = folder.rpartition('/')
+		parent = self.get_node(parent_folder, 'folder')
+		child = self.get_node(full_name, node_type)
+		parent.children.remove(child)
 		
 	
 	def create_tree_text(self, key, directory_path):
