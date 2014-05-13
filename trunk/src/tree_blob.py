@@ -92,11 +92,33 @@ class tree_blob (file_blob):
 		file_hashes = list(set(file_hashes))  #get unique values
 		return file_hashes
 
+
+	@staticmethod
+	def merge(tree_text_A, tree_text_B, tree_text_common_ancestor):
+		"""Merges two trees."""
+		pass
 		
 			
 			
 			
-			
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 			
 			
 			

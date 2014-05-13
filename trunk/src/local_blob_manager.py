@@ -252,11 +252,23 @@ class local_blob_manager:
 
 
 
-	def update_directory(self, key, working_directory, storage_directory, update_commit_hash, working_directory_commit_hash):
+	def update_directory(self, key, working_directory, storage_directory, update_ch, wd_ch):
 		"""
 		Load a whole directory as a second commit.
+		update_ch: update commit hash
+		wd_ch: working directory commit hash
 		"""
 		#@TODO: this
+		
+		#update_ch is always a child of wd_ch.  If not, we need to commit the wd, perform a merge, then run update_directory
+		
+		#load trees from update and wd.
+		
+		#overwrite tree for update and delete any folders that don't exist in update
+		
+		#sort file lists from update and wd in alpha numeric based on hash
+		
+		
 		pass
 
 
