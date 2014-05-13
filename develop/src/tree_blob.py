@@ -13,6 +13,64 @@ class tree_blob (file_blob):
 		self.blob_type='tree'
 		self.blob_pointers=()
 		self.blob_names=()
+	
+	
+	class TreeNode():
+		"""Structure for manipulating directory trees.
+		"""
+		def __init__(self):
+			self.type = ''  #'file', or 'folder'
+			self.name = ''
+			self.hash = ''
+			self.size = 0
+			self.children = None  #child TreeNodes
+	
+	
+	@staticmethod		
+	def serilaize(t, depth=0):
+		"""Serializes the tree structure into a text format
+		"""
+		if t.type == 'file':
+			out_str = '%s/%s/%s/%d\n' %(' '*depth, t.name, t.hash, t.size)
+		elif t.type == 'folder':
+			out_str = ' '*depth + '/' + t.name + '\n'
+	
+			for child in t.children:
+				out_str.append(tree_blob.serialize(child, depth+1))
+		else:
+			logging.error('invalid TreeNode type: %s'%(t.type))
+		
+		return out_str
+	
+	
+	@staticmethod	
+	def deserialize(tree_text, t, depth=0,):
+		"""Deserializes the tree format from text into a tree of TreeNodes
+		"""
+		while True:
+			line, sep, remainder = tree_text.partition('\n')
+			if depth<line.find('/'):
+				return tree_text
+			child = tree_blob.TreeNode()
+			if line.count('/')==3:
+				[useless, child.name, child.hex, child.size] = line.split('/')
+				tree_text = remainder
+			elif line.count('/')==1:
+				[useless, child.name] = line.split('/')  #TODO: add folder hash
+				tree_text = tree_blob.deserialize(remainder, child, depth+1)
+			else:
+				logging.error('invalid tree backslashes')
+			t.children.append(child)
+		
+	
+	
+	def get_folders(self):
+		pass
+	
+	
+	def get_files(self):
+		pass
+	
 		
 	
 	def create_tree_text(self, key, directory_path):
@@ -45,14 +103,15 @@ class tree_blob (file_blob):
 		
 		
 		
-	def write_directory_structure(self, key, storage_directory, working_directory_path, make_folders=True):
+	def write_directory_structure(self, key, storage_directory, working_directory_path, make_folders=True, tree_text=None):
 		"""Creates folders for tree structure stored in opcodes.
 		Also returns a list of all files and corresponding hashes
 		"""
 		
 		file_listing=[]  #stores full file names and corresponding hashes
 		
-		tree_text = self.apply_delta(key, storage_directory)
+		if tree_text == None:
+			tree_text = self.apply_delta(key, storage_directory)
 		
 		path = ''		
 		folders=[]
@@ -78,7 +137,33 @@ class tree_blob (file_blob):
 				os.mkdir(working_directory_path + path) 
 				
 		return file_listing
-			
+	
+	
+	@staticmethod
+	def folder_list(tree_text):
+		"""Returns a list of all folders in tree text.
+		"""
+		
+		folder_list=[]
+		
+		path = ''		
+		folders=[]
+		for line in tree_text.split('\n'):
+			if line.count('/')==3:
+				continue  #this line is a file, not a directory
+			elif line.count('/')!=1:
+				continue  #this line is not a file, or a directory...?
+			depth = line.find('/')
+			while len(folders)>depth:
+				folders.pop()
+				
+			folders.append(line[depth:])
+			path = ''
+			for folder_name in folders:
+				path+= folder_name.decode('utf-8')
+			folder_list.append(path)
+				
+		return folder_list
 			
 
 		
@@ -96,7 +181,53 @@ class tree_blob (file_blob):
 	@staticmethod
 	def merge(tree_text_A, tree_text_B, tree_text_common_ancestor):
 		"""Merges two trees."""
-		pass
+		
+		"""
+		Algorithm
+		--------------
+		A: update commit
+		B: old commit
+		C: common ancestor commit
+		N: new tree
+		-store trees from A, B, C, and N in easily traversable data structure
+		-iterate through folders and files from A (from top down.  these iterations only add to wd)
+		    -if B has it
+		        -no change necessary
+		        -add to N as is
+		    -if C has it, but B doesn't 
+		        -means B deleted file/folder
+		        -don't add to N
+		    -if neither C nor B have it
+		        -means A added it
+		        -push change to wd
+		        -add to N
+		    -if B has same file name and path, but different hash as A
+		        -attempt merge
+		        -add merged file(s) to N
+		
+		-iterate through folders and files from B (from bottom up.  these iterations only delete from wd)
+		    -if neither C nor A have it
+		        -means B added it
+		        -add to N
+		        -no change necessary
+		    -if C has it, but A doesn't 
+		        -means A deleted file/folder
+		        -delete file/folder from wd
+		
+		-commit wd as merge
+		
+		-issues with algorithm
+		    -B moves file, A edits file
+    """
+		folder_list_A = tree_blob.folder_list(tree_text_A)
+		folder_list_B = tree_blob.folder_list(tree_text_B)
+		folder_list_common_ancestor = tree_blob.folder_list(tree_text_common_ancestor)
+		
+		temp_tb = tree_blob()
+		
+		file_listing_A = temp_tb.write_directory_structure(None, '', '', False, tree_text_A)
+		file_listing_B = temp_tb.write_directory_structure(None, '', '', False, tree_text_B)
+		file_listing_common_ancestor = temp_tb.write_directory_structure(None, '', '', False, tree_text_common_ancestor)
 		
 			
 			
