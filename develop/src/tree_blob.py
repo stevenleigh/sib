@@ -9,11 +9,24 @@ import logging
 class tree_blob (file_blob):
 	
 	def __init__(self):
-		super(tree_blob, self ).__init__()
+		super(tree_blob, self).__init__()
 		self.blob_type='tree'
 		self.blob_pointers=()
 		self.blob_names=()
 		self.root_node=None
+		
+		
+	def __str__(self):
+		out_text = super(tree_blob, self).__str__()
+		if self.root_node == None:
+			return out_text
+		
+		out_text+= '\n'
+		out_text+='=========Printing details of tree blob object=========\n'
+		out_text+=self.serialize_tree()
+		out_text+= '------------------------------------------------------'
+		return out_text
+
 	
 	class TreeNode():
 		"""Structure for manipulating directory trees.
@@ -23,78 +36,93 @@ class tree_blob (file_blob):
 			self.node_type = ''  #'file', or 'folder'
 			self.hash_hex = ''
 			self.size = 0
-			self.children = None  #child TreeNodes
+			self.children = []  #child TreeNodes
 	
 	
-	@staticmethod		
-	def serilaize_tree(t, depth=0):
-		"""Serializes the tree structure into a text format
+	def serialize_tree(self):
+		"""Serializes the tree structure into a machine and human readable text format
 		"""
-		if t.node_type == 'file':
-			out_str = '%s/%s/%s/%d\n' %(' '*depth, t.name, t.hash_hex, t.size)
-		elif t.node_type == 'folder':
-			out_str = ' '*depth + '/' + t.name + '\n'
-	
-			for child in t.children:
-				out_str.append(tree_blob.serialize(child, depth+1))
-		else:
-			logging.error('invalid TreeNode type: %s'%(t.node_type))
-		
+		out_str = ''
+		for path, node in self.walk():
+			depth = path.count('/')
+			if node.node_type == 'file':
+				out_str += '%s/%s/%s/%d\n' %(' '*depth, node.name, node.hash_hex, node.size)
+			elif node.node_type == 'folder':
+				out_str += ' '*depth + '/' + node.name + '\n'
 		return out_str
+		
+	
+	def build_tree(self, key, storage_directory):  #TODO: call this on load
+		tree_text = self.apply_delta(key, storage_directory)
+		self.deserialize_tree(tree_text, None, 0)
 	
 	
-	@staticmethod	
-	def deserialize_tree(tree_text, t, depth=0,):
+	def deserialize_tree(self, tree_text, t, depth=0):
 		"""Deserializes the tree format from text into a tree of TreeNodes
-		"""
+		"""		
 		while True:
+			if tree_text == None:
+				return
 			line, sep, remainder = tree_text.partition('\n')
-			if depth<line.find('/'):
+			logging.debug('line: %s'%(line))
+			if '/' not in line:
+				return
+			if depth>line.find('/'):
 				return tree_text
 			child = tree_blob.TreeNode()
 			if line.count('/')==3:
 				[useless, child.name, child.hash_hex, child.size] = line.split('/')
+				child.size = int(child.size)
+				child.node_type = 'file'
 				tree_text = remainder
 			elif line.count('/')==1:
 				[useless, child.name] = line.split('/')  #TODO: add folder hash
-				tree_text = tree_blob.deserialize(remainder, child, depth+1)
+				child.node_type = 'folder'
+				tree_text = self.deserialize_tree(remainder, child, depth+1)
 			else:
 				logging.error('invalid tree backslashes')
-			t.children.append(child)  #TODO: when/how to make root node?
+			if depth == 0:
+				self.root_node = child
+				return
+			else:
+				t.children.append(child)  #TODO: when/how to make root node?
 		
 	
+	def walk(self, node=None, full_path=''):
+		if node == None:
+			node = self.root_node
+			full_path = node.name
+		else:
+			full_path = full_path + '/' + node.name
+		yield full_path, node
+		children = list(node.children)  #make copy of list in case tree is modified during iteration
+		for c in children:
+			for path, n in self.walk(c, full_path):
+				yield path, n
 	
-	def get_node_list(self, node_types=['folder','file'], root_node=None, root_full_name=''):
-		"""Lists full path names of nodes
-		Listing in depth-first.
-		node_types: list of node types to return.  
-		Use node_types=['folder','file'] to return everything.
-		"""
-		node_list = []
-		if root_node == None:
-			root_node = self.root_node
-			root_full_name = ''
-		root_full_name = root_full_name + '/' + root_node.name
-		if root_node.node_type in node_types:
-			node_list.append(root_full_name)
-		for c in root_node.children:
-			node_list.append(get_node_list(node_types, c, root_full_name))
-		return node_list
 		
-		
-	def get_node(self, full_name, node_type, root_node = None):
-		if root_node == None:
-			root_node = self.root_node
-		depth = len(full_name.split('/'))
+	def get_node(self, full_name, node_type, node = None):
+		if node == None:
+			logging.debug('[full_name, node_type]: %s'%([full_name, node_type]))
+			node = self.root_node
 		name, sep, remainder = full_name.partition('/')
-		for c in root_node.children:
-			if depth>0 and c.name==name:
-				return self.get_node(remainder, node_type, c)
-			elif depth==0 and c.name==name and c.node_type == node_type:
-				return c  #node found
-		return None  #node not found
-
+		if node.name != name:
+			return None
+		depth = len(full_name.split('/'))
+		logging.debug('[depth, name, remainder]: %s'%([depth, name, remainder]))
+		if depth > 1:
+			for c in node.children:
+				ret_node = self.get_node(remainder, node_type, c)
+				if ret_node != None:
+					return ret_node
+		if depth == 1 and node.node_type == node_type:
+			return node
+		if node == self.root_node:
+			logging.error('Couldn\'t find node.  [full_name, node_type]: %s'%([full_name, node_type]))
+			logging.error('%s'%(self.__str__()))
+		return None 
 			
+					
 	def has_node(self, full_name, node_type):
 		if self.get_node(full_name, node_type) == None:
 			return False
@@ -109,136 +137,57 @@ class tree_blob (file_blob):
 		child.node_type = node_type
 		child.hash_hex = hash_hex
 		child.size = size
+		logging.debug('[parent, parent.children]: %s'%([parent, parent.children]))
 		parent.children.append(child)
 
 	
 	def rm_node(self, full_name, node_type):
-		parent_folder, sep, child_name = folder.rpartition('/')
+		parent_folder, sep, child_name = full_name.rpartition('/')
+		logging.debug('[full_name, parent_folder, sep, child_name]: %s'%([full_name, parent_folder, sep, child_name]))
 		parent = self.get_node(parent_folder, 'folder')
 		child = self.get_node(full_name, node_type)
 		parent.children.remove(child)
 		
 	
 	def create_tree(self, key, path):
-		unused, unused, root_name = path.rpartition('/')
+		base_path, unused, root_name = path.rpartition('/')
 		self.root_node = tree_blob.TreeNode()
 		self.root_node.name = root_name
 		self.root_node.node_type = 'folder'
 		
 		for parent_dir, dir_names, file_names in os.walk(path):
-			if '/.sib' in dir_name:  #ignore .sib folder
-				continue	
 			for dir_name in dir_names:
-				folder_path = os.path.relpath(os.path.join(parent_dir, dir_name), path)
+				if '/.sib' in dir_name:  #ignore .sib folder
+					continue
+				logging.debug('[parent_dir, dir_name, base_path]: %s'%([parent_dir, dir_name, base_path]))
+				folder_path = os.path.relpath(os.path.join(parent_dir, dir_name), base_path)
 				self.add_node(folder_path, 'folder')
 			for file_name in file_names:
 				file_path = os.path.join(parent_dir, file_name) 
 				file = open(file_path,'r')
 				file_text = file.read()
-				self.add_node(os.path.relpath(file_path,path), 'file', self.compute_hash(key, file_text), len(file_text))
+				self.add_node(os.path.relpath(file_path, base_path), 'file', self.compute_hash(key, file_text), len(file_text))
 				
-				
-	def create_tree_text(self, key, directory_path):
-		logging.info('encoding directory structure into text format for path: %s', directory_path)
-		tree_text=''
-		depth=0  #keep track of depth of directory, and indicate such using tabs
-		root_depth = len(string.split(directory_path,'/'))
-		for dir_name, dir_names, file_names in os.walk(directory_path):
-			if '/.sib' in dir_name:  #ignore .sib folder
-				continue			
-			depth = len(string.split(dir_name,'/')) - root_depth
-			(head,tail) = os.path.split(dir_name)
-			tree_text+= ' '*depth + '/' + tail + '\n'
-			# print path to all filenames.
-			depth = depth + 1
-			for file_name in file_names:
-				file_path = os.path.join(dir_name, file_name) 
-				file = open(file_path,'r')
-				file_text = file.read()
-				file_hash=self.compute_hash(key, file_text)  #TODO: does this use tonnes of CPU?  Consider Queue and multiprocessing
-				file_size = len(file_text)  #file size is used for finding potential file blob matches later on
-				line = '%s/%s/%s/%d\n' %(' '*depth, file_name, file_hash, file_size)
-				tree_text+=line
-				#tree_text+=' '*depth + '/' + file_name + '/' + file_hash + '/' + file_size + '\n'
-				
-				
-		print '\n===\n' + tree_text + '\n==='
-		logging.debug('\n%s', tree_text)
-		return tree_text
 		
-		
-		
-	def write_directory_structure(self, key, storage_directory, working_directory_path, make_folders=True, tree_text=None):
-		"""Creates folders for tree structure stored in opcodes.
-		Also returns a list of all files and corresponding hashes
-		"""
-		
-		file_listing=[]  #stores full file names and corresponding hashes
-		
-		if tree_text == None:
-			tree_text = self.apply_delta(key, storage_directory)
-		
-		path = ''		
-		folders=[]
-		for line in tree_text.split('\n'):
-			if line.count('/')==3:
-				[useless, file_name, hash_hex, file_size] = line.split('/')
-				file_size = int(file_size)
-				file_listing.append((path, file_name, hash_hex, file_size))
-				continue  #this line is a file, not a directory
-			elif line.count('/')!=1:
-				continue  #this line is not a file, or a directory...?
-			depth = line.find('/')
-			while len(folders)>depth:
-				folders.pop()
-				
-			folders.append(line[depth:])
-			path = ''
-			for folder_name in folders:
-				path+= folder_name.decode('utf-8')
-			if not make_folders:
+	#TODO: move to local_blob_manager?
+	def write_folders(self, working_directory):
+		for path, node in self.walk():
+			if node.node_type !='folder':
 				continue
-			if not os.path.exists(working_directory_path + path):
-				os.mkdir(working_directory_path + path) 
-				
-		return file_listing
-	
-	
-	@staticmethod
-	def folder_list(tree_text):
-		"""Returns a list of all folders in tree text.
-		"""
-		
-		folder_list=[]
-		
-		path = ''		
-		folders=[]
-		for line in tree_text.split('\n'):
-			if line.count('/')==3:
-				continue  #this line is a file, not a directory
-			elif line.count('/')!=1:
-				continue  #this line is not a file, or a directory...?
-			depth = line.find('/')
-			while len(folders)>depth:
-				folders.pop()
-				
-			folders.append(line[depth:])
-			path = ''
-			for folder_name in folders:
-				path+= folder_name.decode('utf-8')
-			folder_list.append(path)
-				
-		return folder_list
-			
+			logging.debug('folder: %s'%(path))
+			full_path = os.path.join(working_directory, path)
+			if not os.path.exists(full_path):
+				os.mkdir(full_path)	
 
 		
 	def file_hashes(self, key, storage_directory):
 		"""Return a list of unique file hashes identified in this tree.
 		"""
-		file_listing=self.write_directory_structure(key, storage_directory, None, False)
 		file_hashes=[]
-		for (path, file_name, hash_hex, file_size) in file_listing:
-			file_hashes.append(hash_hex)
+		for path, node in self.walk():
+			if node.node_type != 'file':
+				continue
+			file_hashes.append(node.hash_hex)
 		file_hashes = list(set(file_hashes))  #get unique values
 		return file_hashes
 
@@ -284,9 +233,9 @@ class tree_blob (file_blob):
 		-issues with algorithm
 		    -B moves file, A edits file
     """
-		folder_list_A = tree_blob.folder_list(tree_text_A)
-		folder_list_B = tree_blob.folder_list(tree_text_B)
-		folder_list_common_ancestor = tree_blob.folder_list(tree_text_common_ancestor)
+		#folder_list_A = tree_blob.folder_list(tree_text_A)
+		#folder_list_B = tree_blob.folder_list(tree_text_B)
+		#folder_list_common_ancestor = tree_blob.folder_list(tree_text_common_ancestor)
 		
 		temp_tb = tree_blob()
 		

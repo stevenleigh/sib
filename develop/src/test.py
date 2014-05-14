@@ -122,7 +122,8 @@ print '***Testing loading a whole directory as an initial commit'
 logging.debug('Testing loading a whole directory as an initial commit')
 print '************************************************************************'
 #load a whole directory as an initial commit
-shutil.rmtree('../resource/test_directory_1/root/.sib')
+if os.path.exists('../resource/test_directory_1/root/.sib'):
+	shutil.rmtree('../resource/test_directory_1/root/.sib')
 bm=local_blob_manager()
 commit_hash_1 = bm.commit_directory(key, '../resource/test_directory_1/root',
 				os.path.join(peer_A_storage, 'test_share'), 'joe.keur', 'first commit msg')
@@ -237,8 +238,8 @@ for i in range(6):
 
 print '\n\n'
 print '************************************************************************'
-print '***Testing sending a large file between two SIBs'
-logging.debug('Testing sending a large file between two SIBs')
+print '***Testing sending a large file between two sibs'
+logging.debug('Testing sending a large file between two sibs')
 print '************************************************************************'
 large_file = open('../resource/alice.txt','rb')
 fb=file_blob()

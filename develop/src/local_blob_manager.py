@@ -24,12 +24,14 @@ class local_blob_manager:
 			parent_commit_hash = last_commit_hash
 		
 		#create and store tree blob
-		tb = tree_blob()
-		tb_tree_text = tb.create_tree_text(key, working_directory)
-		tb_tree_text_bytes = bytearray(tb_tree_text,'utf-8')
+		tb = tree_blob()  #TODO: fix this up so it diffs with parent tree blobs
+		tb.create_tree(key, working_directory)
+		#tb_tree_text = tb.create_tree_text(key, working_directory)
+		#tb.build_tree(key, storage_directory)
+		tb_tree_text_bytes = bytearray(tb.serialize_tree(),'utf-8')
 		tb.compute_delta(key, tb_tree_text_bytes, None)
 		tb.storage_directory = storage_directory
-		tb.display()
+		print str(tb)
 		tb.store(key, storage_directory)
 		tb_hash = tb.my_hash
 		
@@ -40,14 +42,12 @@ class local_blob_manager:
 		cb.store(key, storage_directory)
 		commit_hash = cb.my_hash
 
-		
 		self.store_file_blobs(key, commit_hash, parent_commit_hash, storage_directory, working_directory)
 		local_blob_manager.write_commit_meta(working_directory, commit_hash)
 				
 		return commit_hash
-				
 	
-	#TODO: function too big. split up or simplify
+
 	def store_file_blobs(self, key, commit_hash, parent_commit_hash, storage_directory, working_directory):
 		logging.info('commit_hash: %s, parent_commit_hash: %s, storage_directory: %s, working_directory: %s', 
 					commit_hash, parent_commit_hash, storage_directory, working_directory)
@@ -58,32 +58,38 @@ class local_blob_manager:
 		#load current commit, tree, and file info
 		cb = commit_blob()
 		cb.load(key, storage_directory, commit_hash)
-		tb = tree_blob()
+		tb = tree_blob()  #it is okay to modify this tree blob.  The one stored for the commit is already saved.
 		tb.load(key, storage_directory, cb.tree_hash)	
+		tb.build_tree(key, storage_directory)
+		logging.debug('tree to store: %s'%(tb))
 		
-		file_listing=tb.write_directory_structure(key, storage_directory, None, False)
-		file_hashes=[]
-		file_names=[]
-		file_folders=[]
-		file_sizes=[]
-		for (path, file_name, hash_hex, file_size) in file_listing:
-			file_hashes.append(hash_hex)
-			file_names.append(file_name)
-			file_folders.append(path)
-			file_sizes.append(file_size)
+		#removed files with duplicate hashes in working directory or storage directory
+		hash_set = set()
+		for root, dirs, files in os.walk(storage_directory):
+			for f in files:
+				hash_set.add(f)
+		logging.debug('storage directory hashes: %s'%(hash_set))
+		for path, node in tb.walk():
+			logging.debug('checking: %s'%(path))
+			if node.node_type != 'file':
+				continue
+			if node.hash_hex in hash_set:
+				logging.debug('found hash match: %s'%(node.hash_hex))
+				tb.rm_node(path, 'file')
+			else:
+				hash_set.add(node.hash_hex)
+		
 		
 		if parent_commit_hash==None:  #this is an initial commit
-			#store all remaining files as initial versions
-			index=-1
-			while (index+1<len(file_hashes)):  #cycle through all file records in working directory
-				index+=1
-				full_file_path = working_directory + file_folders[index] + '/' + file_names[index]
-				new_file = open(full_file_path,'r')
+			for path, node in tb.walk():
+				if node.node_type !='file':
+					continue
+				full_path = os.path.join(working_directory, path)
+				new_file = open(full_path,'r')
 				fb = file_blob()
 				fb.compute_delta(key, new_file.read())
 				fb.store(key, storage_directory)
 			return
-		
 		
 		
 		#load parent commit, tree, and file info
@@ -91,84 +97,33 @@ class local_blob_manager:
 		pcb.load(key, storage_directory, parent_commit_hash)
 		ptb = tree_blob()
 		ptb.load(key, storage_directory, pcb.tree_hash)	
+		ptb.build_tree(key, storage_directory)
+		
+		logging.debug('performing differential commit using following trees')
 		logging.debug('parent tree: %s' %(str(ptb)))
+		logging.debug('child tree: %s' %(str(tb)))
 		
-		file_listing=ptb.write_directory_structure(key, storage_directory, None, False)
-		parent_file_hashes=[]
-		parent_file_names=[]
-		parent_file_folders=[]
-		parent_file_sizes=[]
-		for (path, file_name, hash_hex, file_size) in file_listing:
-			parent_file_hashes.append(hash_hex)
-			parent_file_names.append(file_name)
-			parent_file_folders.append(path)
-			parent_file_sizes.append(file_size)
-			
-		
-		#Find file blob matches and similar file blobs
-		
-		#remove duplicate hashes in working directory
-		#@TODO: shouldn't remove just yet because one duplicate may help find a similar file in parent commit
-		index=-1
-		while True:
-			index+=1
-			if index>=len(file_hashes)-1:
-				break
-			if file_hashes[index] in file_hashes[index+1:]:
-				logging.debug('Found duplicate files within working directory.  working: %s', file_hashes[index])
-				file_hashes.pop(index)
-				file_names.pop(index)
-				file_folders.pop(index)
-				file_sizes.pop(index)
-				index-=1
-				
-				
-		#remove duplicate hashes in working directory vs storage directory
-		index=-1
-		while True:
-			index+=1
-			if index>=len(file_hashes):
-				break
-			if file_hashes[index] in parent_file_hashes:
-				logging.debug('Found duplicate file already stored.  working: %s', file_hashes[index])
-				file_hashes.pop(index)
-				file_names.pop(index)
-				file_folders.pop(index)
-				file_sizes.pop(index)
-				index-=1		
 
-		
 		#find files with the same name in the same path, compute deltas, and store as file blob diffs
-		index=-1
-		while (index+1<len(file_hashes)):  #cycle through all file records in working directory
-			index+=1
-			parent_index=-1
-			while (parent_index+1<len(parent_file_hashes)):  #cycle through all files records in parent commit
-				parent_index+=1
-				if file_names[index]!= parent_file_names[parent_index]:
-					continue
-				if file_folders[index]!=parent_file_folders[parent_index]:
-					continue
-				
-				#If this line is reached we found two files with the same name, path, but different hashes.
-				#Compute the diff between these two files and store it.
-				logging.debug('Found files with matching paths and names.  working: %s, parent: %s', file_hashes[index], parent_file_hashes[parent_index])
-				full_file_path = working_directory + file_folders[index] + '/' + file_names[index]
-				new_file = open(full_file_path,'rb')
-				pfb = file_blob()
-				pfb.load(key, storage_directory, parent_file_hashes[parent_index])
-				fb = file_blob()
-				fb.compute_delta(key, new_file.read(), pfb, storage_directory)
-				fb.store(key, storage_directory)
-				
-				file_hashes.pop(index)
-				file_names.pop(index)
-				file_folders.pop(index)
-				file_sizes.pop(index)
-				index-=1
-				break
-				
-			
+		for path, node in tb.walk():
+			if node.node_type != 'file':
+				continue
+			if not ptb.has_node(path, 'file'):
+				continue
+			p_node = ptb.get_node(path, 'file')
+			logging.debug('Found files with matching paths and names.  working: %s, parent: %s', node.hash_hex, p_node.hash_hex)
+			full_file_path = os.path.join(working_directory, path)
+			new_file = open(full_file_path,'rb')
+			pfb = file_blob()
+			pfb.load(key, storage_directory, p_node.hash_hex)
+			fb = file_blob()
+			fb.compute_delta(key, new_file.read(), pfb, storage_directory)
+			fb.store(key, storage_directory)
+			tb.rm_node(path, 'file')
+		
+		
+		#TODO: re-implement code commented below
+		"""
 		#Look for similar files between working and parent and compute diffs on those
 		index=-1
 		while (index+1<len(file_hashes)):  #cycle through all file records in working directory
@@ -209,19 +164,17 @@ class local_blob_manager:
 				file_sizes.pop(index)
 				index-=1
 				break
-		
+		"""
 		
 		#store all remaining files as initial versions
-		index=-1
-		while (index+1<len(file_hashes)):  #cycle through all file records in working directory
-			index+=1
-			full_file_path = working_directory + file_folders[index] + '/' + file_names[index]
+		for path, node in tb.walk():
+			if node.node_type !='file':
+				continue
+			full_file_path = os.path.join(working_directory, path)
 			new_file = open(full_file_path,'rb')
 			fb = file_blob()
 			fb.compute_delta(key, new_file.read())
-			fb.store(key, storage_directory)
-		
-		
+			fb.store(key, storage_directory)		
 
 
 	def restore_directory(self, key, working_directory, storage_directory, commit_hash):
@@ -237,19 +190,19 @@ class local_blob_manager:
 		#restore tree folder structure
 		tb = tree_blob()
 		tb.load(key, storage_directory, cb.tree_hash)
+		tb.build_tree(key, storage_directory)
 		logging.debug('tree to restore:\n%s'%(str(tb)))
-		file_listing = tb.write_directory_structure(key, storage_directory, working_directory)
+		tb.write_folders(working_directory)
 		
-		#restore files
-		for (path, file_name, hash_hex, file_size) in file_listing:
+		for path, node in tb.walk():
+			if node.node_type != 'file':
+				continue
 			fb = file_blob()
-			fb.load(key, storage_directory, hash_hex)
-			#full_file_path = os.path.join(working_directory_path, path, file_name)
-			full_file_path = working_directory + path + '/' + file_name
+			fb.load(key, storage_directory, node.hash_hex)
+			full_file_path = os.path.join(working_directory, path)
+			#full_file_path = working_directory + path + '/' + file_name
 			f=open(full_file_path,'wb');
-			f.write(fb.apply_delta(key, storage_directory))
-			
-
+			f.write(fb.apply_delta(key, storage_directory))	
 
 
 	def update_directory(self, key, working_directory, storage_directory, update_ch, wd_ch):
