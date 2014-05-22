@@ -46,7 +46,7 @@ class tree_blob (file_blob):
 		for path, node in self.walk():
 			depth = path.count('/')
 			if node.node_type == 'file':
-				out_str += '%s/%s/%s/%d\n' %(' '*depth, node.name, node.hash_hex, node.size)
+				out_str += '%s/%s/%s/%s\n' %(' '*depth, node.name, node.hash_hex, node.size)
 			elif node.node_type == 'folder':
 				out_str += ' '*depth + '/' + node.name + '\n'
 		return out_str
@@ -161,7 +161,7 @@ class tree_blob (file_blob):
 					continue
 				logging.debug('[parent_dir, dir_name, base_path]: %s'%([parent_dir, dir_name, base_path]))
 				folder_path = os.path.relpath(os.path.join(parent_dir, dir_name), base_path)
-				self.add_node(folder_path, 'folder')
+				self.add_node(folder_path, 'folder', 0, 0)
 			for file_name in file_names:
 				file_path = os.path.join(parent_dir, file_name) 
 				file = open(file_path,'r')
@@ -193,8 +193,8 @@ class tree_blob (file_blob):
 
 
 	@staticmethod
-	def merge(tb_A, tb_B, tb_common_ancestor):
-		"""Merges two trees."""
+	def merge(tb_A, tb_B, tb_C):
+		"""Merges two trees. C is common ancestor"""
 		
 		"""
 		Algorithm
@@ -233,15 +233,34 @@ class tree_blob (file_blob):
 		-issues with algorithm
 		    -B moves file, A edits file
     """
-		#folder_list_A = tree_blob.folder_list(tree_text_A)
-		#folder_list_B = tree_blob.folder_list(tree_text_B)
-		#folder_list_common_ancestor = tree_blob.folder_list(tree_text_common_ancestor)
 		
-		temp_tb = tree_blob()
 		
-		file_listing_A = temp_tb.write_directory_structure(None, '', '', False, tree_text_A)
-		file_listing_B = temp_tb.write_directory_structure(None, '', '', False, tree_text_B)
-		file_listing_common_ancestor = temp_tb.write_directory_structure(None, '', '', False, tree_text_common_ancestor)
+		merge_tb = tree_blob()
+		merge_tb.root_node = tree_blob.TreeNode()
+		merge_tb.root_node.name = tb_A.root_node.name
+		merge_tb.root_node.node_type = 'folder'
+		merge_tb.root_node.size=0
+		print 'walking tree'
+		for path, node in tb_A.walk():
+			print path
+			if path == merge_tb.root_node.name:
+				continue
+			if tb_B.has_node(path, node.node_type):  #not modified
+				merge_tb.add_node(path, node.node_type, node.hash_hex, int(node.size))
+				continue
+			if tb_C.has_node(path, node.node_type):  #B deleted
+				continue
+			
+			merge_tb.add_node(path, node.node_type, node.hash_hex, int(node.size))  #A added
+			
+		for path, node in tb_B.walk():
+			print path
+			if path == merge_tb.root_node.name:
+				continue
+			if (not tb_C.has_node(path, node.node_type)) and (not tb_A.has_node(path, node.node_type)):  #B added
+				merge_tb.add_node(path, node.node_type, node.hash_hex, int(node.size))
+				
+		return merge_tb
 		
 			
 			

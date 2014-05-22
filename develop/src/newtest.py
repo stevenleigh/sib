@@ -1,6 +1,7 @@
 
 
 from file_blob import file_blob
+from tree_blob import tree_blob
 from local_blob_manager import local_blob_manager
 from sib import SIB
 import os
@@ -35,9 +36,12 @@ def reset_storage():
 	os.mkdir(os.path.join(peer_A_storage, 'test_share'))
 	os.mkdir(os.path.join(peer_B_storage, 'test_share'))
 	os.mkdir(os.path.join(peer_C_storage, 'test_share'))
-	shutil.rmtree('../resource/restore_directory_1')
-	shutil.rmtree('../resource/restore_directory_2')
-	shutil.rmtree('../resource/restore_directory_3')
+	if os.path.exists('../resource/restore_directory_1'):
+		shutil.rmtree('../resource/restore_directory_1')
+	if os.path.exists('../resource/restore_directory_2'):
+		shutil.rmtree('../resource/restore_directory_2')
+	if os.path.exists('../resource/restore_directory_3'):
+		shutil.rmtree('../resource/restore_directory_3')
 	os.mkdir('../resource/restore_directory_1')
 	os.mkdir('../resource/restore_directory_2')
 	os.mkdir('../resource/restore_directory_3')
@@ -120,6 +124,14 @@ class TestLocalBlobManager(unittest.TestCase):
 		logging.debug('Testing tree merge')
 		reset_storage()
 		setup_test_dirs()
+		tb_A = tree_blob()
+		tb_B = tree_blob()
+		tb_C = tree_blob()  #common ancestor
+		tb_A.create_tree(key, '../resource/test_dir_1/root')
+		tb_B.create_tree(key, '../resource/test_dir_2/root')
+		tb_C.create_tree(key, '../resource/test_dir_3/root')
+		tb_merge = tree_blob.merge(tb_A, tb_B, tb_C)
+		print tb_merge
 		
 
 
