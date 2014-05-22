@@ -44,7 +44,7 @@ os.mkdir('../resource/restore_directory_3')
 
 
 
-
+"""
 print '\n\n'
 print '************************************************************************'
 print '***Testing initializing a file blob'
@@ -152,7 +152,7 @@ bm=local_blob_manager()
 commit_hash_3 = bm.commit_directory(key, '../resource/test_directory_3/root',
 				os.path.join(peer_A_storage, 'test_share'),'joe.keur','third commit msg',commit_hash_2)
 bm.restore_directory(key,'../resource/restore_directory_3', os.path.join(peer_A_storage, 'test_share'), commit_hash_3)
-
+"""
 
 
 

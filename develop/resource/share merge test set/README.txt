@@ -12,7 +12,7 @@ Can be used to test the following things:
 -commit given parent
 
 
-common ancestor contents  #note: binary files don't currently exist.
+test_dir_3 contents  #note: binary files don't currently exist.
 ----------------------
 /root
  /empty
@@ -22,7 +22,7 @@ common ancestor contents  #note: binary files don't currently exist.
   /folder 2
 
 
-child A contents  #note: binary files don't currently exist.
+test_dir_1 contents  #note: binary files don't currently exist.
 ----------------------
 /root
  /lipsum.txt  (removed a line)
@@ -32,7 +32,7 @@ child A contents  #note: binary files don't currently exist.
   /folder 3
 
 
-child B contents  #note: binary files don't currently exist.
+test_dir_2 contents  #note: binary files don't currently exist.
 ----------------------
 /root
  /empty

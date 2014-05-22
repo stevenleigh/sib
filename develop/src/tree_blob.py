@@ -193,7 +193,7 @@ class tree_blob (file_blob):
 
 
 	@staticmethod
-	def merge(tree_text_A, tree_text_B, tree_text_common_ancestor):
+	def merge(tb_A, tb_B, tb_common_ancestor):
 		"""Merges two trees."""
 		
 		"""
