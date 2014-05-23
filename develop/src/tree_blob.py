@@ -193,8 +193,13 @@ class tree_blob (file_blob):
 
 
 	@staticmethod
-	def merge(tb_A, tb_B, tb_C):
-		"""Merges two trees. C is common ancestor"""
+	def merge(tb_A, tb_B, tb_C, merge_method = 'dupe_on_conflict'):
+		"""Merges two trees. C is common ancestor
+		merge_method determines how conflicts are handled.
+		dupe_on_conflict: default.  try merging.  if a conflict can't be resolved automatically save both file versions.
+		dupe_always: if two folders/files need to be merged always save both copies
+		force_merge: try merging.  in case of conflict resolve automatically even if result contains unified diff sections.
+		"""
 		
 		"""
 		Algorithm
@@ -245,9 +250,28 @@ class tree_blob (file_blob):
 			print path
 			if path == merge_tb.root_node.name:
 				continue
-			if tb_B.has_node(path, node.node_type):  #not modified
+			if tb_B.has_node(path, node.node_type) and 
+			        (tb_B.get_node(path, node.node_type)).hash_hex == node.hash_hex:  #not modified
 				merge_tb.add_node(path, node.node_type, node.hash_hex, int(node.size))
 				continue
+			if tb_B.has_node(path, node.node_type) and 
+			        (tb_B.get_node(path, node.node_type)).hash_hex != node.hash_hex:  #merge files		
+				hash_hex_B = (tb_B.get_node(path, node.node_type)).hash_hex
+				fb_B = file_blob()
+				fb_B.load(key, storage, hash_hex_B)
+				fb_A = file_blob()
+				fb_A.load(key, storage, node.hash_hex)
+				if tb_C.has_node(path, node.node_type):
+					hash_hex_C = (tb_C.get_node(path, node.node_type)).hash_hex
+					fb_C = file_blob()
+					fb_C.load(key, storage, hash_hex_C)
+				else:
+					fb_C = fb_B
+				merge_text = file_blob.merge(fb_A.apply_delta(key, storage), fb_B.apply_delta(key, storage), fb_C.apply_delta(key, storage))
+				fb_merge = file_blob()
+				fb_merge.compute_delta(key, merge_text, fb_A, storage)
+				merge_tb.add_node(path, node.node_type, node.hash_hex, int(node.size))
+				continue	
 			if tb_C.has_node(path, node.node_type):  #B deleted
 				continue
 			
