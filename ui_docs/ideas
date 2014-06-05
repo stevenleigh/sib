@@ -1,0 +1,5 @@
+GUI
+- map of peer locations
+
+OTHER
+- have light-weight version of SIB, controllable via master 'node' (trusted peer configuration), which would be installed on any non-primary devices (tablet, phone etc). 

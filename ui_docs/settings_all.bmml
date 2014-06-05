@@ -1,0 +1,393 @@
+<mockup version="1.0" skin="sketch" fontFace="Balsamiq Sans" measuredW="1992" measuredH="1011" mockupW="1951" mockupH="1011">
+  <controls>
+    <control controlID="207" controlTypeID="__group__" x="41" y="432" w="633" h="414" measuredW="633" measuredH="414" zOrder="1" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::TabBar" x="0" y="0" w="633" h="414" measuredW="420" measuredH="100" zOrder="0" locked="false" isInGroup="207">
+          <controlProperties>
+            <selectedIndex>1</selectedIndex>
+            <tabVPosition>top</tabVPosition>
+            <text>General%2C%20Storage%2C%20%20Network%2C%20Trusted%20Peers%2C%20Untrusted%20Peers</text>
+            <value>0</value>
+            <verticalScrollbar>false</verticalScrollbar>
+          </controlProperties>
+        </control>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::Label" x="30" y="65" w="57" h="-1" measuredW="50" measuredH="21" zOrder="1" locked="false" isInGroup="207">
+          <controlProperties>
+            <text>Location</text>
+          </controlProperties>
+        </control>
+        <control controlID="2" controlTypeID="com.balsamiq.mockups::ComboBox" x="374" y="62" w="197" h="-1" measuredW="122" measuredH="24" zOrder="2" locked="false" isInGroup="207">
+          <controlProperties>
+            <text>/home/user/sib</text>
+          </controlProperties>
+        </control>
+        <control controlID="3" controlTypeID="com.balsamiq.mockups::Label" x="30" y="120" w="-1" h="-1" measuredW="167" measuredH="21" zOrder="3" locked="false" isInGroup="207">
+          <controlProperties>
+            <text>Untrusted%20peer%20storage%20limit</text>
+          </controlProperties>
+        </control>
+        <control controlID="4" controlTypeID="com.balsamiq.mockups::NumericStepper" x="374" y="117" w="197" h="-1" measuredW="79" measuredH="24" zOrder="4" locked="false" isInGroup="207">
+          <controlProperties>
+            <text>500%20MB</text>
+          </controlProperties>
+        </control>
+        <control controlID="5" controlTypeID="com.balsamiq.mockups::Label" x="30" y="155" w="-1" h="-1" measuredW="153" measuredH="21" zOrder="5" locked="false" isInGroup="207">
+          <controlProperties>
+            <text>Trusted%20peer%20storage%20limit</text>
+          </controlProperties>
+        </control>
+        <control controlID="6" controlTypeID="com.balsamiq.mockups::NumericStepper" x="374" y="152" w="197" h="-1" measuredW="70" measuredH="24" zOrder="6" locked="false" isInGroup="207">
+          <controlProperties>
+            <text>1.7%20GB</text>
+          </controlProperties>
+        </control>
+        <control controlID="7" controlTypeID="com.balsamiq.mockups::Label" x="30" y="209" w="-1" h="-1" measuredW="139" measuredH="21" zOrder="7" locked="false" isInGroup="207">
+          <controlProperties>
+            <text>Default%20encryption%20level</text>
+          </controlProperties>
+        </control>
+        <control controlID="8" controlTypeID="com.balsamiq.mockups::ComboBox" x="374" y="207" w="196" h="-1" measuredW="57" measuredH="24" zOrder="8" locked="false" isInGroup="207">
+          <controlProperties>
+            <text>NSA</text>
+          </controlProperties>
+        </control>
+        <control controlID="9" controlTypeID="com.balsamiq.mockups::Label" x="30" y="248" w="-1" h="-1" measuredW="120" measuredH="21" zOrder="9" locked="false" isInGroup="207">
+          <controlProperties>
+            <text>Default%20backup%20level</text>
+          </controlProperties>
+        </control>
+        <control controlID="10" controlTypeID="com.balsamiq.mockups::ComboBox" x="374" y="246" w="196" h="-1" measuredW="76" measuredH="24" zOrder="10" locked="false" isInGroup="207">
+          <controlProperties>
+            <text>Medium</text>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="209" controlTypeID="__group__" x="1357" y="1" w="635" h="414" measuredW="635" measuredH="414" zOrder="4" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::TabBar" x="0" y="0" w="635" h="414" measuredW="420" measuredH="100" zOrder="0" locked="false" isInGroup="209">
+          <controlProperties>
+            <selectedIndex>4</selectedIndex>
+            <tabVPosition>top</tabVPosition>
+            <text>General%2C%20Storage%2C%20%20Network%2C%20Trusted%20Peers%2C%20Untrusted%20Peers</text>
+            <value>0</value>
+            <verticalScrollbar>false</verticalScrollbar>
+          </controlProperties>
+        </control>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::CheckBox" x="30" y="51" w="-1" h="-1" measuredW="145" measuredH="22" zOrder="1" locked="false" isInGroup="209">
+          <controlProperties>
+            <text>Cap%20Untrusted%20Peers</text>
+          </controlProperties>
+        </control>
+        <control controlID="2" controlTypeID="com.balsamiq.mockups::NumericStepper" x="381" y="50" w="197" h="-1" measuredW="57" measuredH="24" zOrder="2" locked="false" isInGroup="209">
+          <controlProperties>
+            <text>500</text>
+          </controlProperties>
+        </control>
+        <control controlID="3" controlTypeID="com.balsamiq.mockups::CheckBox" x="50" y="115" w="271" h="22" measuredW="245" measuredH="22" zOrder="3" locked="false" isInGroup="209">
+          <controlProperties>
+            <state>selected</state>
+            <text>Auto%20blacklist%20peers%20with%20uptime%20below</text>
+          </controlProperties>
+        </control>
+        <control controlID="4" controlTypeID="com.balsamiq.mockups::NumericStepper" x="381" y="114" w="197" h="-1" measuredW="61" measuredH="24" zOrder="4" locked="false" isInGroup="209">
+          <controlProperties>
+            <text>35%25</text>
+          </controlProperties>
+        </control>
+        <control controlID="5" controlTypeID="com.balsamiq.mockups::CheckBox" x="30" y="215" w="-1" h="-1" measuredW="143" measuredH="22" zOrder="5" locked="false" isInGroup="209">
+          <controlProperties>
+            <state>selected</state>
+            <text>Enable%20peer%20blacklist</text>
+          </controlProperties>
+        </control>
+        <control controlID="6" controlTypeID="com.balsamiq.mockups::DataGrid" x="41" y="248" w="-1" h="-1" measuredW="525" measuredH="141" zOrder="6" locked="false" isInGroup="209">
+          <controlProperties>
+            <text>Block%2C%20Address%20%5Ev%2C%20Peer%20data%20%5Ev%2C%20Peer%20storage%20%5Ev%2C%20Uptime%20%5Ev%2C%20Bandwidth%20%5Ev%2C%20Client%20%5Ev%0A%28%20%29%2C%2010.156.5.66%2C%20112%20MB%2C%2024%20MB%2C%2090%25%2C%20122%20kB/s%2C%20SIB%201.0.2%0A%28o%29%2C%2065.106.5.76%2C%20-%2C%20-%2C%2020%25%2C%2076%20kB/s%2C%20SIB%202.7.2%0A%28%20%29%2C%2032.56.50.6%2C%200%20MB%2C%2021%20MB%2C%2045%25%2C%2037%20kB/s%2C%20SIB%201.4.2%0A%28o%29%2C%20114.16.5.8%2C%20-%2C%20-%2C%2030%25%2C%205%20kB/s%2C%20SIB%202.0.9</text>
+          </controlProperties>
+        </control>
+        <control controlID="7" controlTypeID="com.balsamiq.mockups::CheckBox" x="30" y="84" w="-1" h="-1" measuredW="264" measuredH="22" zOrder="7" locked="false" isInGroup="209">
+          <controlProperties>
+            <state>selected</state>
+            <text>Enable%20automatic%20peer%20statistic%20collection</text>
+          </controlProperties>
+        </control>
+        <control controlID="8" controlTypeID="__group__" x="50" y="148" w="528" h="24" measuredW="528" measuredH="24" zOrder="8" locked="false" isInGroup="209">
+          <groupChildrenDescriptors>
+            <control controlID="0" controlTypeID="com.balsamiq.mockups::CheckBox" x="0" y="1" w="271" h="22" measuredW="265" measuredH="22" zOrder="0" locked="false" isInGroup="8">
+              <controlProperties>
+                <state>selected</state>
+                <text>Auto%20blacklist%20peers%20with%20bandwidth%20below</text>
+              </controlProperties>
+            </control>
+            <control controlID="1" controlTypeID="com.balsamiq.mockups::NumericStepper" x="331" y="0" w="197" h="-1" measuredW="81" measuredH="24" zOrder="1" locked="false" isInGroup="8">
+              <controlProperties>
+                <text>20%20kB/s</text>
+              </controlProperties>
+            </control>
+          </groupChildrenDescriptors>
+        </control>
+        <control controlID="9" controlTypeID="com.balsamiq.mockups::CheckBox" x="30" y="186" w="-1" h="-1" measuredW="284" measuredH="22" zOrder="9" locked="false" isInGroup="209">
+          <controlProperties>
+            <state>selected</state>
+            <text>Synchronize%20blacklist%20amongst%20trusted%20peers</text>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="223" controlTypeID="__group__" x="699" y="1" w="633" h="414" measuredW="633" measuredH="414" zOrder="0" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::TabBar" x="0" y="0" w="633" h="414" measuredW="420" measuredH="100" zOrder="0" locked="false" isInGroup="223">
+          <controlProperties>
+            <selectedIndex>2</selectedIndex>
+            <tabVPosition>top</tabVPosition>
+            <text>General%2C%20Storage%2C%20%20Network%2C%20Trusted%20Peers%2C%20Untrusted%20Peers</text>
+            <value>0</value>
+            <verticalScrollbar>false</verticalScrollbar>
+          </controlProperties>
+        </control>
+        <control controlID="1" controlTypeID="__group__" x="30" y="114" w="541" h="69" measuredW="541" measuredH="69" zOrder="1" locked="false" isInGroup="223">
+          <groupChildrenDescriptors>
+            <control controlID="0" controlTypeID="com.balsamiq.mockups::CheckBox" x="0" y="1" w="135" h="26" measuredW="135" measuredH="22" zOrder="0" locked="false" isInGroup="1">
+              <controlProperties>
+                <text>Upload%20Limit%20%28kB/s%29</text>
+              </controlProperties>
+            </control>
+            <control controlID="1" controlTypeID="com.balsamiq.mockups::NumericStepper" x="344" y="0" w="197" h="-1" measuredW="54" measuredH="24" zOrder="1" locked="false" isInGroup="1">
+              <controlProperties>
+                <text>100</text>
+              </controlProperties>
+            </control>
+            <control controlID="2" controlTypeID="com.balsamiq.mockups::CheckBox" x="0" y="43" w="150" h="26" measuredW="150" measuredH="22" zOrder="2" locked="false" isInGroup="1">
+              <controlProperties>
+                <text>Download%20Limit%20%28kB/s%29</text>
+              </controlProperties>
+            </control>
+            <control controlID="3" controlTypeID="com.balsamiq.mockups::NumericStepper" x="344" y="42" w="197" h="-1" measuredW="54" measuredH="24" zOrder="3" locked="false" isInGroup="1">
+              <controlProperties>
+                <text>100</text>
+              </controlProperties>
+            </control>
+          </groupChildrenDescriptors>
+        </control>
+        <control controlID="2" controlTypeID="com.balsamiq.mockups::CheckBox" x="30" y="215" w="200" h="26" measuredW="200" measuredH="22" zOrder="2" locked="false" isInGroup="223">
+          <controlProperties>
+            <text>Enable%20Alternate%20Speed%20Limits</text>
+          </controlProperties>
+        </control>
+        <control controlID="3" controlTypeID="com.balsamiq.mockups::CheckBoxGroup" x="64" y="259" w="135" h="20" measuredW="135" measuredH="17" zOrder="3" locked="false" isInGroup="223">
+          <controlProperties>
+            <text>-%5B%20%5D%20Upload%20Limit%20%28kB/s%29-</text>
+          </controlProperties>
+        </control>
+        <control controlID="4" controlTypeID="com.balsamiq.mockups::NumericStepper" x="374" y="254" w="197" h="-1" measuredW="58" measuredH="24" zOrder="4" locked="false" isInGroup="223">
+          <controlProperties>
+            <text>200</text>
+          </controlProperties>
+        </control>
+        <control controlID="5" controlTypeID="com.balsamiq.mockups::CheckBoxGroup" x="64" y="297" w="143" h="20" measuredW="143" measuredH="17" zOrder="5" locked="false" isInGroup="223">
+          <controlProperties>
+            <text>-%5Bx%5D%20Dowload%20Limit%20%28kB/s%29-</text>
+          </controlProperties>
+        </control>
+        <control controlID="6" controlTypeID="com.balsamiq.mockups::NumericStepper" x="374" y="292" w="197" h="-1" measuredW="58" measuredH="24" zOrder="6" locked="false" isInGroup="223">
+          <controlProperties>
+            <text>200</text>
+          </controlProperties>
+        </control>
+        <control controlID="7" controlTypeID="com.balsamiq.mockups::Label" x="169" y="346" w="39" h="-1" measuredW="39" measuredH="21" zOrder="7" locked="false" isInGroup="223">
+          <controlProperties>
+            <text>Times%3A</text>
+          </controlProperties>
+        </control>
+        <control controlID="8" controlTypeID="com.balsamiq.mockups::NumericStepper" x="230" y="344" w="68" h="-1" measuredW="68" measuredH="24" zOrder="8" locked="false" isInGroup="223">
+          <controlProperties>
+            <text>23%3A00</text>
+          </controlProperties>
+        </control>
+        <control controlID="9" controlTypeID="com.balsamiq.mockups::Label" x="313" y="345" w="13" h="-1" measuredW="13" measuredH="22" zOrder="9" locked="false" isInGroup="223">
+          <controlProperties>
+            <size>14</size>
+            <text>to</text>
+          </controlProperties>
+        </control>
+        <control controlID="10" controlTypeID="com.balsamiq.mockups::NumericStepper" x="344" y="344" w="60" h="-1" measuredW="60" measuredH="24" zOrder="10" locked="false" isInGroup="223">
+          <controlProperties>
+            <text>6%3A00</text>
+          </controlProperties>
+        </control>
+        <control controlID="11" controlTypeID="com.balsamiq.mockups::CheckBox" x="30" y="65" w="104" h="26" measuredW="104" measuredH="22" zOrder="11" locked="false" isInGroup="223">
+          <controlProperties>
+            <state>selected</state>
+            <text>Use%20fixed%20port</text>
+          </controlProperties>
+        </control>
+        <control controlID="12" controlTypeID="com.balsamiq.mockups::NumericStepper" x="374" y="64" w="197" h="-1" measuredW="61" measuredH="24" zOrder="12" locked="false" isInGroup="223">
+          <controlProperties>
+            <text>3719</text>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="233" controlTypeID="__group__" x="41" y="0" w="633" h="417" measuredW="633" measuredH="417" zOrder="2" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::TabBar" x="0" y="0" w="633" h="417" measuredW="420" measuredH="100" zOrder="0" locked="false" isInGroup="233">
+          <controlProperties>
+            <selectedIndex>0</selectedIndex>
+            <tabVPosition>top</tabVPosition>
+            <text>General%2C%20Storage%2C%20%20Network%2C%20Trusted%20Peers%2C%20Untrusted%20Peers</text>
+            <value>0</value>
+            <verticalScrollbar>false</verticalScrollbar>
+          </controlProperties>
+        </control>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::ComboBox" x="108" y="356" w="-1" h="-1" measuredW="105" measuredH="24" zOrder="1" locked="false" isInGroup="233">
+          <controlProperties>
+            <text>English%20%28US%29</text>
+          </controlProperties>
+        </control>
+        <control controlID="2" controlTypeID="com.balsamiq.mockups::Label" x="30" y="358" w="60" h="-1" measuredW="60" measuredH="21" zOrder="2" locked="false" isInGroup="233">
+          <controlProperties>
+            <text>Language</text>
+          </controlProperties>
+        </control>
+        <control controlID="3" controlTypeID="com.balsamiq.mockups::CheckBox" x="516" y="357" w="-1" h="-1" measuredW="102" measuredH="22" zOrder="3" locked="false" isInGroup="233">
+          <controlProperties>
+            <text>Lock%20settings</text>
+          </controlProperties>
+        </control>
+        <control controlID="4" controlTypeID="com.balsamiq.mockups::CheckBox" x="30" y="110" w="-1" h="-1" measuredW="248" measuredH="22" zOrder="4" locked="false" isInGroup="233">
+          <controlProperties>
+            <state>selected</state>
+            <text>Enable%20automatic%20file%20backup%20and%20sync</text>
+          </controlProperties>
+        </control>
+        <control controlID="5" controlTypeID="com.balsamiq.mockups::CheckBoxGroup" x="30" y="56" w="-1" h="-1" measuredW="153" measuredH="17" zOrder="5" locked="false" isInGroup="233">
+          <controlProperties>
+            <text>%5B%20%5D%20Launch%20SIB%20on%20startup</text>
+          </controlProperties>
+        </control>
+        <control controlID="6" controlTypeID="__group__" x="30" y="139" w="389" h="91" measuredW="389" measuredH="91" zOrder="6" locked="false" isInGroup="233">
+          <groupChildrenDescriptors>
+            <control controlID="0" controlTypeID="com.balsamiq.mockups::CheckBoxGroup" x="21" y="30" w="-1" h="-1" measuredW="368" measuredH="61" zOrder="0" locked="false" isInGroup="6">
+              <controlProperties>
+                <text>-%5Bx%5D%20Notify%20when%20a%20file/folder%20is%20syncd%20amongst%20trusted%20devices-%0A-%5Bx%5D%20Notify%20when%20a%20file/folder%20backup%20is%20complete-%0A-%5Bx%5D%20Notify%20when%20allocated%20peer%20storage%20is%20close%20to%20full-</text>
+              </controlProperties>
+            </control>
+            <control controlID="1" controlTypeID="com.balsamiq.mockups::CheckBox" x="0" y="0" w="-1" h="-1" measuredW="164" measuredH="22" zOrder="1" locked="false" isInGroup="6">
+              <controlProperties>
+                <text>Enable%20notifications%09</text>
+              </controlProperties>
+            </control>
+          </groupChildrenDescriptors>
+        </control>
+        <control controlID="7" controlTypeID="com.balsamiq.mockups::CheckBox" x="30" y="82" w="-1" h="-1" measuredW="135" measuredH="22" zOrder="7" locked="false" isInGroup="233">
+          <controlProperties>
+            <state>selected</state>
+            <text>Enable%20web%20access</text>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="242" controlTypeID="__group__" x="699" y="432" w="1096" h="579" measuredW="1096" measuredH="579" zOrder="3" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::TitleWindow" x="669" y="266" w="427" h="313" measuredW="450" measuredH="400" zOrder="0" locked="false" isInGroup="242">
+          <controlProperties>
+            <text>Trusted%20Peer%20Configuration%20%3A%20craigs-android</text>
+          </controlProperties>
+        </control>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::TabBar" x="0" y="0" w="635" h="414" measuredW="420" measuredH="100" zOrder="1" locked="false" isInGroup="242">
+          <controlProperties>
+            <selectedIndex>3</selectedIndex>
+            <tabVPosition>top</tabVPosition>
+            <text>General%2C%20Storage%2C%20%20Network%2C%20Trusted%20Peers%2C%20Untrusted%20Peers</text>
+            <value>0</value>
+            <verticalScrollbar>false</verticalScrollbar>
+          </controlProperties>
+        </control>
+        <control controlID="2" controlTypeID="com.balsamiq.mockups::DataGrid" x="30" y="95" w="-1" h="-1" measuredW="547" measuredH="171" zOrder="2" locked="false" isInGroup="242">
+          <controlProperties>
+            <text>Disable%2C%20ID%20%5Ev%2C%20Address%20%5Ev%2C%20Sync%20Ratio%20%5Ev%2C%20Uptime%20%5Ev%2C%20Bandwidth%20%5Ev%2C%20Client%20%5Ev%0A%28o%29%2C%20craigs-ipod%2C%2099.15.5.75%2C%20-%2C%2090%25%2C%20122%20kB/s%2C%20SIB%201.02%0A%28%20%29%2C%20craigs-android%2C%2043.180.25.76%2C%20100%25%2C%2090%25%2C%2096%20kB/s%2C%20SIB%202.1.4%0A%28%20%29%2C%20home-server%2C%2031.245.70.6%2C%20100%25%2C%2085%25%2C%2037%20kB/s%2C%20SIB%202.1.4%0A%28%20%29%2C%20work-pc%2C%20104.19.35.11%2C%2088%25%2C%2030%25%2C%2051%20kB/s%2C%20SIB%201.1.0%0A%28%20%29%2C%20work-server%2C%20203.0.53.1%2C%2097%25%2C%2070%25%2C%20213%20kB/s%2C%20SIB%202.2.1</text>
+          </controlProperties>
+        </control>
+        <control controlID="3" controlTypeID="com.balsamiq.mockups::CheckBox" x="22" y="59" w="-1" h="-1" measuredW="285" measuredH="22" zOrder="3" locked="false" isInGroup="242">
+          <controlProperties>
+            <state>selected</state>
+            <text>Enable%20remote%20configuration%20of%20trusted%20peers</text>
+          </controlProperties>
+        </control>
+        <control controlID="4" controlTypeID="com.balsamiq.mockups::Arrow" x="578" y="153" w="161" h="115" measuredW="150" measuredH="100" zOrder="4" locked="false" isInGroup="242">
+          <controlProperties>
+            <curvature>1</curvature>
+            <text>double%20click%20any%20row%20will%20launch%20config%20window</text>
+          </controlProperties>
+        </control>
+        <control controlID="5" controlTypeID="__group__" x="684" y="394" w="397" h="56" measuredW="397" measuredH="56" zOrder="5" locked="false" isInGroup="242">
+          <groupChildrenDescriptors>
+            <control controlID="1" controlTypeID="__group__" x="0" y="32" w="397" h="24" measuredW="397" measuredH="24" zOrder="2" locked="false" isInGroup="5">
+              <groupChildrenDescriptors>
+                <control controlID="0" controlTypeID="com.balsamiq.mockups::Label" x="0" y="2" w="-1" h="-1" measuredW="153" measuredH="21" zOrder="0" locked="false" isInGroup="1">
+                  <controlProperties>
+                    <text>Trusted%20peer%20storage%20limit</text>
+                  </controlProperties>
+                </control>
+                <control controlID="1" controlTypeID="com.balsamiq.mockups::NumericStepper" x="200" y="0" w="197" h="-1" measuredW="79" measuredH="24" zOrder="1" locked="false" isInGroup="1">
+                  <controlProperties>
+                    <text>350%20MB</text>
+                  </controlProperties>
+                </control>
+              </groupChildrenDescriptors>
+            </control>
+            <control controlID="2" controlTypeID="com.balsamiq.mockups::Label" x="0" y="2" w="-1" h="-1" measuredW="167" measuredH="21" zOrder="0" locked="false" isInGroup="5">
+              <controlProperties>
+                <text>Untrusted%20peer%20storage%20limit</text>
+              </controlProperties>
+            </control>
+            <control controlID="3" controlTypeID="com.balsamiq.mockups::NumericStepper" x="200" y="0" w="197" h="-1" measuredW="76" measuredH="24" zOrder="1" locked="false" isInGroup="5">
+              <controlProperties>
+                <text>100%20MB</text>
+              </controlProperties>
+            </control>
+          </groupChildrenDescriptors>
+        </control>
+        <control controlID="6" controlTypeID="__group__" x="688" y="467" w="388" h="59" measuredW="388" measuredH="59" zOrder="6" locked="false" isInGroup="242">
+          <groupChildrenDescriptors>
+            <control controlID="0" controlTypeID="com.balsamiq.mockups::CheckBox" x="0" y="1" w="-1" h="-1" measuredW="135" measuredH="22" zOrder="0" locked="false" isInGroup="6">
+              <controlProperties>
+                <text>Upload%20Limit%20%28kB/s%29</text>
+              </controlProperties>
+            </control>
+            <control controlID="1" controlTypeID="com.balsamiq.mockups::NumericStepper" x="191" y="0" w="197" h="-1" measuredW="50" measuredH="24" zOrder="1" locked="false" isInGroup="6">
+              <controlProperties>
+                <text>20</text>
+              </controlProperties>
+            </control>
+            <control controlID="2" controlTypeID="com.balsamiq.mockups::CheckBox" x="0" y="36" w="-1" h="-1" measuredW="150" measuredH="22" zOrder="2" locked="false" isInGroup="6">
+              <controlProperties>
+                <text>Download%20Limit%20%28kB/s%29</text>
+              </controlProperties>
+            </control>
+            <control controlID="3" controlTypeID="com.balsamiq.mockups::NumericStepper" x="191" y="35" w="197" h="-1" measuredW="50" measuredH="24" zOrder="3" locked="false" isInGroup="6">
+              <controlProperties>
+                <text>20</text>
+              </controlProperties>
+            </control>
+          </groupChildrenDescriptors>
+        </control>
+        <control controlID="7" controlTypeID="__group__" x="684" y="315" w="397" h="24" measuredW="397" measuredH="24" zOrder="7" locked="false" isInGroup="242">
+          <groupChildrenDescriptors>
+            <control controlID="0" controlTypeID="com.balsamiq.mockups::CheckBox" x="0" y="1" w="-1" h="-1" measuredW="145" measuredH="22" zOrder="0" locked="false" isInGroup="7">
+              <controlProperties>
+                <text>Cap%20Untrusted%20Peers</text>
+              </controlProperties>
+            </control>
+            <control controlID="1" controlTypeID="com.balsamiq.mockups::NumericStepper" x="200" y="0" w="197" h="-1" measuredW="49" measuredH="24" zOrder="1" locked="false" isInGroup="7">
+              <controlProperties>
+                <text>50</text>
+              </controlProperties>
+            </control>
+          </groupChildrenDescriptors>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+  </controls>
+</mockup>
