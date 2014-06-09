@@ -1,0 +1,30 @@
+{
+	"SETTINGS": {
+		"GENERAL": {
+	        "Launch_on_startup"		: "TRUE",
+	        "Enable_web_access"		: "TRUE",
+	        "Enable_auto_backup"	: "TRUE",
+	        "Enable_notifications"	: "TRUE",
+	        "Notify_syncd"			: "TRUE",
+	        "Notify_backup_cmplt"	: "TRUE",
+	        "Notify_storage_full"	: "TRUE",
+	        "Language"				: "en",
+	        "Lock_settings"			: "TRUE"
+		},
+		"STORAGE": {
+			"Storage_location"		: "~/SIB/"
+		},
+		"NETWORK": {
+			"Use_fixed_port"		: "TRUE",
+			"Fixed_port"			: "47354"
+		},
+		"TRUSTED_PEERS": {
+			"Enable_remote_config"	: "TRUE"
+		},
+		"UNTRUSTED_PEERS": {
+			"Cap_untrusted_peers"	: "TRUE",
+			"Untrusted_peers_cap"	: "500"
+		}
+
+    }
+}
