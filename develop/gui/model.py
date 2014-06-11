@@ -5,8 +5,9 @@ import threading
 import fcntl
 import logging
 import socket
-import socketio
 import json
+
+import socketio
 
 # ------ MISC ------ #
 
@@ -70,7 +71,7 @@ class updateThread(threading.Thread):
 		socketio.send(conn, json.dumps(self.value))
 		conn.close()
 
-class Model():
+class Model(object):
 	conn = -1
 	config = -1
 
@@ -153,6 +154,9 @@ class Model():
 		thread = updateThread('localhost', settings['port'], page, key, value)
 		thread.start()
 		
+def main():
+	pass
+
 if __name__ == '__main__':
 	isSingleton = check_singleton()
 	if isSingleton == False:

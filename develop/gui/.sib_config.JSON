@@ -12,17 +12,46 @@
             "Notify_syncd": true
         },
         "NETWORK": {
+            "Alt_limit_time_lower": 23.0,
+            "Alt_limit_time_upper": 6.0,
+            "Download_limit": 90,
+            "Download_limit_alt": 190,
+            "Download_limit_alt_en": false,
+            "Download_limit_alt_units": "kB/s",
+            "Download_limit_en": false,
+            "Download_limit_units": "kB/s",
+            "Enable_alternate_speed_limits": false,
             "Fixed_port": 47354,
+            "Upload_limit": 100,
+            "Upload_limit_alt": 220,
+            "Upload_limit_alt_en": false,
+            "Upload_limit_alt_units": "kB/s",
+            "Upload_limit_en": false,
+            "Upload_limit_units": "kB/s",
             "Use_fixed_port": true
         },
         "STORAGE": {
-            "Storage_location": "~/SIB/"
+            "Default_backup_level": "Medium",
+            "Default_encryption_level": "NSA",
+            "Storage_location": "~/SIB/",
+            "Trusted_peer_storage_limit": 1.7,
+            "Trusted_peer_storage_limit_units": "GB",
+            "Untrusted_peer_storage_limit": 500.0,
+            "Untrusted_peer_storage_limit_units": "MB"
         },
         "TRUSTED_PEERS": {
             "Enable_remote_config": true
         },
         "UNTRUSTED_PEERS": {
+            "Auto_blacklist_peer_bandwidth_below": 20,
+            "Auto_blacklist_peer_bandwidth_below_units": "kB/s",
+            "Auto_blacklist_peer_up_below": 35,
+            "Auto_blacklist_peer_up_below_en": true,
+            "Auto_blacklist_peer_up_below_units": "%",
+            "Auto_peer_stat_collect_en": true,
             "Cap_untrusted_peers": true,
+            "Peer_blacklist_en": true,
+            "Sync_blacklist_amongst_trusted_peers": true,
             "Untrusted_peers_cap": 400
         }
     }
